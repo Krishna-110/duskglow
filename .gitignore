@@ -21,3 +21,7 @@ next-env.d.ts
 *.pem
 npm-debug.log*
 yarn-error.log*
+
+# local mockup + editor config
+/.claude
+/VillaSite*.html
