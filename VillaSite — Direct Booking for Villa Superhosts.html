@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VillaSite — Direct Booking for Villa Superhosts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════
+     VILLASITE V6 — ARCHITECTURAL SANCTUARY
+     Playfair Display × Outfit
+     Theme-toggle, interactive ROI, magazine spreads
+     ═══════════════════════════════════════════ */
+
+  :root {
+    --canvas:       #ece6dd;
+    --canvas-alt:   #e3dcd1;
+    --surface:      #ffffff;
+    --ink:          #1a1612;
+    --ink-soft:     #5c5348;
+    --ink-dim:      #8c8274;
+    --amber:        #b87a4e;
+    --amber-soft:   rgba(184,122,78,0.12);
+    --amber-glow:   rgba(184,122,78,0.08);
+    --border:       #d4cdc0;
+    --border-subtle: rgba(0,0,0,0.05);
+    --nav-bg:       rgba(236,230,221,0.88);
+    --hero-overlay: linear-gradient(135deg, rgba(26,22,18,0.40) 0%, rgba(26,22,18,0.15) 35%, rgba(236,230,221,0.10) 60%, rgba(236,230,221,0.85) 100%);
+    --card-bg:      rgba(255,255,255,0.92);
+    --card-border:  rgba(212,205,192,0.35);
+    --shadow:       rgba(0,0,0,0.04);
+    --glow:         rgba(184,122,78,0.15);
+    --timer-bg:     rgba(255,255,255,0.06);
+    --logo-amber:   #b87a4e;
+    --btn-prim-bg:  #1a1612;
+    --btn-prim-text:#fff;
+  }
+
+  .theme-dusk {
+    --canvas:       #1a1612;
+    --canvas-alt:   #221d18;
+    --surface:      #2a2420;
+    --ink:          #ece6dd;
+    --ink-soft:     #8c8274;
+    --ink-dim:      #5c5348;
+    --border:       #3a332e;
+    --border-subtle: rgba(255,255,255,0.04);
+    --nav-bg:       rgba(26,22,18,0.88);
+    --hero-overlay: linear-gradient(135deg, rgba(26,22,18,0.55) 0%, rgba(26,22,18,0.25) 50%, rgba(26,22,18,0.05) 80%);
+    --card-bg:      rgba(42,36,32,0.92);
+    --card-border:  rgba(58,51,46,0.5);
+    --shadow:       rgba(0,0,0,0.15);
+    --timer-bg:     rgba(255,255,255,0.08);
+    --btn-prim-bg:  #b87a4e;
+    --btn-prim-text:#fff;
+    --logo-amber:   #b87a4e;
+  }
+
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Outfit',sans-serif;background:var(--canvas);color:var(--ink);
+    line-height:1.55;overflow-x:hidden;font-weight:300;
+    transition:background .6s,color .6s;
+  }
+
+  /* ── Container ── */
+  .c{max-width:1200px;margin:0 auto;padding:0 32px}
+  .cn{max-width:880px;margin:0 auto;padding:0 32px}
+  .cw{max-width:1400px;margin:0 auto;padding:0 32px}
+  section{padding:100px 0;transition:background .6s}
+  .sa{background:var(--canvas-alt)}
+
+  /* ── Typography ── */
+  .td{
+    font-family:'Playfair Display',Georgia,serif;font-weight:400;
+    line-height:1.08;letter-spacing:-0.02em;
+  }
+  .tdb{
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;
+    line-height:1.05;letter-spacing:-0.025em;
+  }
+  .th{
+    font-family:'Playfair Display',Georgia,serif;font-weight:400;
+    line-height:1.12;letter-spacing:-0.01em;
+  }
+  .thb{
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;
+    line-height:1.1;letter-spacing:-0.015em;
+  }
+  .te{
+    font-family:'Outfit',sans-serif;font-weight:500;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-dim);
+    transition:color .6s;
+  }
+  .tb{
+    font-family:'Outfit',sans-serif;font-weight:300;font-size:15px;
+    line-height:1.65;color:var(--ink-soft);transition:color .6s;
+  }
+  .tbsm{
+    font-family:'Outfit',sans-serif;font-weight:300;font-size:14px;
+    line-height:1.6;color:var(--ink-dim);transition:color .6s;
+  }
+  .tq{
+    font-family:'Playfair Display',Georgia,serif;font-style:italic;
+    font-weight:400;line-height:1.35;letter-spacing:-0.01em;
+  }
+  .amb{color:var(--amber)}
+  .tc{text-align:center}
+
+  /* ── Buttons ── */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Outfit',sans-serif;font-weight:500;font-size:14px;
+    padding:14px 28px;cursor:pointer;transition:all .3s;
+    text-decoration:none;white-space:nowrap;letter-spacing:.02em;border:none;
+  }
+  .btn-pm{background:var(--btn-prim-bg);color:var(--btn-prim-text)}
+  .btn-pm:hover{background:var(--amber);color:#fff}
+  .btn-ol{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--border);transition:all .3s;
+  }
+  .btn-ol:hover{background:var(--canvas-alt);border-color:var(--amber);color:var(--amber)}
+  .btn-lg{padding:16px 36px;font-size:15px}
+  .btn-lt{background:rgba(255,255,255,0.92);color:#1a1612}
+  .btn-lt:hover{background:#fff}
+
+  /* ── Nav ── */
+  .nv{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);padding:12px 0;
+    transition:background .6s,border-color .6s;
+  }
+  .nv .c{display:flex;align-items:center;justify-content:space-between}
+  .nv-br{
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;
+    font-size:19px;letter-spacing:-.02em;text-decoration:none;color:var(--ink);
+    transition:color .6s;position:relative;z-index:102;
+  }
+
+  /* ── Desktop nav links ── */
+  .nv-rhs{display:flex;align-items:center;gap:20px}
+  .nv-lk{display:flex;align-items:center;gap:24px;list-style:none}
+  .nv-lk a{
+    font-weight:400;font-size:13px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-soft);text-decoration:none;
+    transition:color .3s;
+  }
+  .nv-lk a:hover{color:var(--amber)}
+
+  /* ── Hamburger ── */
+  .nv-ham{
+    display:none;position:relative;z-index:102;background:none;border:none;
+    width:28px;height:20px;cursor:pointer;padding:0;
+  }
+  .nv-ham span{
+    display:block;position:absolute;left:0;width:100%;height:2px;
+    background:var(--ink);border-radius:1px;
+    transition:all .3s;transform-origin:center;
+  }
+  .nv-ham span:nth-child(1){top:0}
+  .nv-ham span:nth-child(2){top:9px}
+  .nv-ham span:nth-child(3){top:18px}
+  .menu-open .nv-ham span:nth-child(1){top:9px;transform:rotate(45deg)}
+  .menu-open .nv-ham span:nth-child(2){opacity:0}
+  .menu-open .nv-ham span:nth-child(3){top:9px;transform:rotate(-45deg)}
+
+  /* ── Mobile nav overlay ── */
+  .nv-overlay{
+    display:none;position:fixed;inset:0;z-index:98;
+    background:rgba(26,22,18,0.4);opacity:0;transition:opacity .3s;
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  }
+  .menu-open .nv-overlay{opacity:1}
+
+  /* ── Mobile nav panel ── */
+  .nv-mob{
+    display:none;position:fixed;top:0;left:0;right:0;z-index:99;
+    background:var(--nav-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    padding:88px 32px 40px;transform:translateY(-100%);transition:transform .4s;
+    border-bottom:1px solid var(--border);
+    overflow-y:auto;max-height:100dvh;
+  }
+  .menu-open .nv-mob{transform:translateY(0)}
+
+  .nv-mob-lk{list-style:none;display:flex;flex-direction:column;gap:4px}
+  .nv-mob-lk a{
+    display:block;padding:14px 0;
+    font-family:'Playfair Display',Georgia,serif;font-weight:400;
+    font-size:22px;letter-spacing:-.01em;
+    color:var(--ink);text-decoration:none;border-bottom:1px solid var(--border-subtle);
+    transition:color .3s;
+  }
+  .nv-mob-lk a:hover{color:var(--amber)}
+
+  /* ── Desktop: hide mobile-only, show desktop ── */
+  @media(min-width:721px){
+    .nv-ham,.nv-overlay,.nv-mob{display:none !important}
+    .nv-rhs{display:flex !important}
+    .nv .c .nv-rhs .nv-lk{display:flex !important}
+  }
+
+  /* ── Mobile ── */
+  @media(max-width:720px){
+    .nv-rhs .nv-lk{display:none}
+    .nv-rhs .th-tog{display:none}
+    .nv-ham{display:block}
+    .nv-overlay{display:block;pointer-events:none}
+    .menu-open .nv-overlay{pointer-events:auto}
+    .nv-mob{display:block}
+    .nv-mob .th-tog{display:inline-flex;margin-top:24px}
+    .c{padding:0 20px}
+  }
+
+  /* ── Theme toggle ── */
+  .th-tog{
+    display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--ink-dim);transition:color .6s;background:none;border:none;
+    padding:6px 10px;border-radius:24px;border:1px solid var(--border);
+    transition:all .3s;
+  }
+  .th-tog:hover{border-color:var(--amber);color:var(--amber)}
+  .th-dot{
+    width:8px;height:8px;border-radius:50%;background:var(--amber);
+    transition:transform .3s;
+  }
+  .th-tog .sun{display:inline}
+  .th-tog .moon{display:none}
+  .theme-dusk .th-tog .sun{display:none}
+  .theme-dusk .th-tog .moon{display:inline}
+
+  /* ── Hero ── */
+  .hr{position:relative;height:100vh;min-height:640px;max-height:1000px;overflow:hidden}
+  .hr-im{position:absolute;inset:0}
+  .hr-im img{width:100%;height:100%;object-fit:cover}
+  .hr-im::after{content:'';position:absolute;inset:0;background:var(--hero-overlay);transition:background .6s}
+  .hr-cd{
+    position:absolute;bottom:56px;right:48px;max-width:580px;
+    padding:36px 40px 32px;
+    background:var(--card-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid var(--card-border);transition:background .6s,border-color .6s;
+    animation:fadeIn 1.4s ease 0.5s both;
+  }
+  @media(max-width:740px){
+    .hr-cd{right:20px;left:20px;bottom:28px;padding:28px 24px;max-width:none}
+    .hr{min-height:560px}
+  }
+
+  /* ── 🧮 ROI CALCULATOR ── */
+  .roi-wrap{
+    margin:24px 0;padding:20px 24px;
+    background:var(--amber-soft);border:1px solid var(--card-border);
+    transition:background .6s,border-color .6s;
+  }
+  .roi-hdr{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:14px;
+  }
+  .roi-hdr span{font-size:13px;font-weight:500;color:var(--ink-soft);transition:color .6s}
+  .roi-hdr .val{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:22px;color:var(--amber)}
+  .roi-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--border);border-radius:2px;outline:none;transition:background .6s}
+  .roi-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--amber);cursor:pointer;border:2px solid var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  .roi-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--amber);cursor:pointer;border:2px solid var(--surface)}
+  .roi-result{display:flex;gap:24px;margin-top:14px;flex-wrap:wrap}
+  .roi-item{flex:1;min-width:100px}
+  .roi-item .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-dim);transition:color .6s}
+  .roi-item .big{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:26px;line-height:1.2;margin-top:4px}
+  .roi-item .big .amb{font-size:18px}
+
+  /* ── Split ── */
+  .sp{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:440px}
+  .sp-im{position:relative;overflow:hidden}
+  .sp-im img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+  .sp-tx{padding:64px 48px;display:flex;flex-direction:column;justify-content:center}
+  @media(max-width:860px){
+    .sp{grid-template-columns:1fr}
+    .sp-im{min-height:280px;position:relative}
+    .sp-im img{position:relative;height:280px}
+    .sp-tx{padding:40px 28px}
+  }
+
+  /* ── Magazine spread ── */
+  .mg{display:grid;grid-template-columns:7fr 5fr;gap:0;min-height:400px}
+  .mg-im{position:relative;overflow:hidden}
+  .mg-im img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+  .mg-tx{padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
+  .mg-rev .mg{grid-template-columns:5fr 7fr;direction:rtl}
+  .mg-rev .mg-tx{direction:ltr}
+  .mg-rev .mg-im{direction:ltr}
+  @media(max-width:860px){
+    .mg,.mg-rev .mg{grid-template-columns:1fr;direction:ltr}
+    .mg-im{min-height:240px;position:relative}
+    .mg-im img{position:relative;height:240px}
+    .mg-tx{padding:32px 24px}
+  }
+
+  /* ── Feature editorial rows ── */
+  .fe{display:flex;flex-direction:column}
+  .fe-it{
+    display:grid;grid-template-columns:7fr 5fr;gap:0;
+    min-height:320px;border-bottom:1px solid var(--border-subtle);
+    transition:border-color .6s;
+  }
+  .fe-it:last-child{border-bottom:none}
+  .fe-rev .fe-it{grid-template-columns:5fr 7fr}
+  .fe-it-im{position:relative;overflow:hidden}
+  .fe-it-im img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .7s}
+  .fe-it:hover .fe-it-im img{transform:scale(1.04)}
+  .fe-it-tx{
+    padding:36px 40px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .fe-it-nm{
+    font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;
+    color:var(--amber);margin-bottom:8px;
+  }
+  .fe-it-tx h4{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:19px;margin-bottom:6px;letter-spacing:-.01em}
+  .fe-it-tx p{font-size:14px;line-height:1.65;color:var(--ink-soft);transition:color .6s}
+  .fe-rev .fe-it{direction:rtl}
+  .fe-rev .fe-it>*{direction:ltr}
+  @media(max-width:860px){
+    .fe-it,.fe-rev .fe-it{grid-template-columns:1fr;min-height:0;direction:ltr}
+    .fe-it-im{min-height:200px;position:relative}
+    .fe-it-im img{position:relative;height:200px}
+    .fe-it-tx{padding:24px 20px}
+    .fe-it-rev{margin-top:0}
+  }
+  @media(max-width:480px){
+    .fe-it-im{min-height:180px}
+    .fe-it-im img{height:180px}
+    .fe-it-tx{padding:20px 16px}
+    .fe-it-tx h4{font-size:17px}
+    .fe-it-tx p{font-size:13px}
+  }
+
+  /* ── Process ── */
+  .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+  .pg::before{content:'';position:absolute;top:32px;left:calc(12.5% + 28px);right:calc(12.5% + 28px);height:1px;background:var(--border);z-index:0;transition:background .6s}
+  .ps{position:relative;z-index:1;text-align:center}
+  .ps .nm{
+    width:64px;height:64px;margin:0 auto 20px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:18px;
+    background:var(--surface);border:1.5px solid var(--border);color:var(--amber);
+    transition:background .6s,border-color .6s;
+  }
+  .ps h4{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:17px;margin-bottom:6px}
+  .ps p{font-size:13px;line-height:1.6;color:var(--ink-soft);transition:color .6s}
+  @media(max-width:740px){.pg{grid-template-columns:repeat(2,1fr);gap:32px}.pg::before{display:none}}
+  @media(max-width:480px){.pg{grid-template-columns:1fr}}
+
+  /* ── Testimonial ── */
+  .tw{position:relative;overflow:hidden;min-height:420px;display:flex;align-items:center}
+  .tw-bg{position:absolute;inset:0}
+  .tw-bg img{width:100%;height:100%;object-fit:cover}
+  .tw-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,22,18,.50)0%,rgba(26,22,18,.10)70%)}
+  .tw-cd{
+    position:relative;z-index:1;max-width:640px;margin:0 auto;
+    background:var(--card-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    padding:44px 52px;text-align:center;
+    transition:background .6s;
+  }
+  .tw-cd .qmark{font-family:'Playfair Display',Georgia,serif;font-size:88px;line-height:.6;color:var(--amber);margin-bottom:8px}
+  .tw-cd blockquote{font-size:clamp(18px,2.5vw,26px)}
+  .tw-cd .at{margin-top:24px;padding-top:20px;border-top:1px solid var(--border);transition:border-color .6s}
+  @media(max-width:640px){.tw-cd{margin:0 20px;padding:28px 20px}}
+
+  /* ── Pricing ── */
+  .pr{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);transition:background .6s,border-color .6s}
+  .pc{background:var(--surface);overflow:hidden;transition:background .6s}
+  .pc:hover{transform:translateY(-1px)}
+  .pc.feat{border-left:3px solid var(--amber)}
+  .pc-im{height:100px;overflow:hidden}
+  .pc-im img{width:100%;height:100%;object-fit:cover}
+  .pc-bd{padding:24px 24px 28px}
+  .pc-bd h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:21px;margin-bottom:4px;letter-spacing:-.01em}
+  .pc-bd .desc{font-size:13px;color:var(--ink-dim);margin-bottom:12px;transition:color .6s}
+  .pc-bd .prc{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:36px;line-height:1;margin-bottom:2px}
+  .pc-bd .sub{font-size:12px;color:var(--ink-dim);margin-bottom:16px;transition:color .6s}
+  .pc-bd ul{list-style:none;margin-bottom:20px}
+  .pc-bd ul li{padding:6px 0;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--border-subtle);transition:color .6s,border-color .6s}
+  .pc .btn{width:100%;justify-content:center}
+  .pc-bg{
+    display:inline-block;font-size:10px;font-weight:500;
+    text-transform:uppercase;letter-spacing:.06em;
+    background:var(--amber-soft);color:var(--amber);padding:4px 12px;margin-bottom:10px;
+  }
+  @media(max-width:860px){.pr{grid-template-columns:1fr;max-width:400px;margin:0 auto}}
+
+  /* ── FAQ ── */
+  .fq{max-width:760px;margin:0 auto}
+  .fq-it{border-bottom:1px solid var(--border);padding:20px 0;cursor:pointer;transition:border-color .6s}
+  .fq-q{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:17px;
+    transition:color .3s;
+  }
+  .fq-q:hover{color:var(--amber)}
+  .fq-q .pl{font-size:20px;transition:transform .3s;color:var(--amber)}
+  .fq-q.open .pl{transform:rotate(45deg)}
+  .fq-a{
+    max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;
+    opacity:0;padding-top:0;
+  }
+  .fq-a.show{max-height:300px;opacity:1;padding-top:14px}
+  .fq-a p{font-size:14px;line-height:1.6;color:var(--ink-soft);transition:color .6s}
+
+  /* ── CTA ── */
+  .cts{
+    position:relative;overflow:hidden;min-height:360px;
+    display:flex;align-items:center;justify-content:center;text-align:center
+  }
+  .ctb{position:absolute;inset:0}
+  .ctb img{width:100%;height:100%;object-fit:cover}
+  .ctb::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,22,18,.50)0%,rgba(26,22,18,.15)70%)}
+  .ctc{position:relative;z-index:1;max-width:520px;padding:0 20px}
+  .ctc h2{color:#fff}
+  .ctc p{color:rgba(255,255,255,.78)}
+
+  /* ── Footer ── */
+  .ft{border-top:1px solid var(--border);padding:48px 0 32px;transition:border-color .6s}
+  .fgw{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+  .ft h5{font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-dim);margin-bottom:14px;transition:color .6s}
+  .ft a{display:block;font-size:13px;color:var(--ink-soft);text-decoration:none;margin-bottom:5px;transition:color .3s}
+  .ft a:hover{color:var(--amber)}
+  @media(max-width:720px){.fgw{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.fgw{grid-template-columns:1fr}}
+
+  /* ── Warm Glow Reveal ── */
+  @keyframes warmBloom{0%{opacity:0.55}100%{opacity:0}}
+  .hr-warm{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(196,164,90,0.2) 70%,rgba(196,164,90,0.08) 100%);
+    animation:warmBloom 2.4s ease-out forwards}
+  .reveal{opacity:0;transition:opacity .9s ease}
+  .reveal.wv{opacity:1}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav class="nv" id="siteNav">
+    <div class="c">
+      <a href="#" class="nv-br">Villa<span class="amb">Site</span></a>
+      <div class="nv-rhs">
+        <ul class="nv-lk">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how">Process</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#cta" class="btn btn-pm" style="padding:7px 18px;font-size:12px;text-transform:none;letter-spacing:0;">Book a Call</a></li>
+        </ul>
+        <button class="th-tog" id="themeBtnDesktop">
+          <span class="sun">☀</span><span class="moon">☽</span>
+          <span class="th-dot"></span>
+        </button>
+        <button class="nv-ham" id="hamBtn" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="nv-overlay" id="navOverlay"></div>
+
+    <!-- Mobile panel -->
+    <div class="nv-mob" id="navMob">
+      <ul class="nv-mob-lk">
+        <li><a href="#features" class="nv-mob-link">Features</a></li>
+        <li><a href="#how" class="nv-mob-link">Process</a></li>
+        <li><a href="#pricing" class="nv-mob-link">Pricing</a></li>
+        <li><a href="#faq" class="nv-mob-link">FAQ</a></li>
+        <li><a href="#cta" class="nv-mob-link">Book a Call</a></li>
+      </ul>
+      <button class="th-tog" id="themeBtnMobile">
+        <span class="sun">☀</span><span class="moon">☽</span>
+        <span>Day / Dusk</span>
+        <span class="th-dot"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <header class="hr">
+    <div class="hr-im">
+      <img src="https://images.pexels.com/photos/31751031/pexels-photo-31751031.jpeg?auto=compress&cs=tinysrgb&w=1920&dpr=2"
+           alt="Mediterranean villa at golden hour" loading="eager">
+    </div>
+    <div class="hr-warm"></div>
+    <div class="hr-cd" style="z-index:2;">
+      <div class="te" style="margin-bottom:14px;">VillaSite — Direct Booking Microsites</div>
+      <h1 class="td" style="font-size:clamp(26px,4vw,42px);margin-bottom:16px;">
+        Own<br>
+        <span class="amb">the moment.</span><br>
+        Own the guest.
+      </h1>
+      <p class="tb" style="font-size:15px;margin-bottom:16px;">
+        Custom microsites that turn Airbnb guests into repeat direct bookers.
+        Your brand. Your calendar. Zero commission. Forever.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="#roi" class="btn btn-pm">Calculate Your Savings</a>
+        <a href="#features" class="btn btn-ol">Explore →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ ROI CALCULATOR ═══ -->
+  <section id="roi">
+    <div class="cn" style="text-align:center;">
+      <span class="te">Interactive</span>
+      <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin:12px 0 8px;">
+        What are you <span class="amb">paying Airbnb?</span>
+      </h2>
+      <p class="tb" style="max-width:500px;margin:0 auto 32px;">
+        Slide your average monthly booking revenue. See exactly how much goes to fees — and what a microsite saves you.
+      </p>
+    </div>
+    <div class="cn">
+      <div class="roi-wrap">
+        <div class="roi-hdr">
+          <span>Monthly booking revenue</span>
+          <span class="val" id="roiRev">€8,500</span>
+        </div>
+        <input type="range" class="roi-slider" id="roiSlider" min="2000" max="30000" value="8500" step="500">
+        <div class="roi-result">
+          <div class="roi-item">
+            <div class="lbl">Airbnb 15.5% Fee</div>
+            <div class="big" id="roiFee">€1,318</div>
+          </div>
+          <div class="roi-item">
+            <div class="lbl">Yearly Loss</div>
+            <div class="big" id="roiYear">€15,810</div>
+          </div>
+          <div class="roi-item">
+            <div class="lbl">Saved with VillaSite*</div>
+            <div class="big"><span class="amb" id="roiSaved">€15,546</span> <span style="font-size:12px;color:var(--ink-dim);font-weight:400;">/yr</span></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-dim);margin-top:12px;">*After €15/mo hosting cost. Does not include tax deductions or existing Airbnb expenses.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MAGAZINE SPREAD: Problem ═══ -->
+  <section class="sa">
+    <div class="mg">
+      <div class="mg-tx">
+        <span class="te" style="margin-bottom:14px;">The Problem</span>
+        <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin-bottom:18px;">
+          You own the villa.<br>
+          <span class="amb">Who owns the brand?</span>
+        </h2>
+        <p class="tb" style="margin-bottom:14px;">
+          Every booking through Airbnb costs 15.5% in service fees. Every guest who stays types the Airbnb logo into their phone, not your villa's name. The equity builds their platform — your property fuels someone else's valuation.
+        </p>
+        <p class="tbsm" style="margin-bottom:20px;">
+          A direct-booking microsite flips the equation. Your domain appears in Google searches. Your calendar receives enquiries directly. Your guest list compounds with every stay — and the brand equity belongs to the villa.
+        </p>
+        <a href="#features" class="btn btn-ol">See the difference →</a>
+      </div>
+      <div class="mg-im">
+        <img src="https://images.pexels.com/photos/37030525/pexels-photo-37030525.jpeg?auto=compress&cs=tinysrgb&w=1000&dpr=2"
+             alt="Terrace with bougainvillea overlooking the sea" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REVERSED MAGAZINE SPREAD: Solution ═══ -->
+  <section class="mg-rev">
+    <div class="mg">
+      <div class="mg-im">
+        <img src="https://images.pexels.com/photos/35069530/pexels-photo-35069530.jpeg?auto=compress&cs=tinysrgb&w=1000&dpr=2"
+             alt="Sunset wine glasses at infinity pool" loading="eager">
+      </div>
+      <div class="mg-tx">
+        <span class="te" style="margin-bottom:14px;">The Solution</span>
+        <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin-bottom:18px;">
+          Your domain.<br>
+          <span class="amb">Your guest list.</span>
+        </h2>
+        <p class="tb" style="margin-bottom:14px;">
+          A VillaSite microsite is a full editorial presence for your villa — designed, built, and deployed in seven days. We handle the photography layout, calendar integration, payment links, and Google indexing.
+        </p>
+        <p class="tbsm">
+          You get a direct pipeline to your guests. Email capture, retargeting pixels, and off-season messaging — all under your control. The villa becomes the destination. The platform becomes invisible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ═══ -->
+  <section class="sa" id="features">
+    <div class="c" style="text-align:center;">
+      <span class="te">What You Get</span>
+      <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin:12px 0 36px;">
+        Everything a villa needs <span class="amb">to be independent.</span>
+      </h2>
+    </div>
+    <div class="c">
+      <div class="fe">
+        <div class="fe-it">
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/20852906/pexels-photo-20852906.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Pool with arches" loading="eager"></div>
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">01 / 06</span>
+            <h4>Photography-first design</h4>
+            <p>Full-bleed imagery, editorial galleries, and asymmetrical grids built to showcase every angle of your property.</p>
+          </div>
+        </div>
+        <div class="fe-it">
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">02 / 06</span>
+            <h4>Stripe payment links</h4>
+            <p>Guests pay deposits with a card — right on your site. No app, no account, no 15.5% haircut. Funds settle straight to your bank.</p>
+          </div>
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/33144647/pexels-photo-33144647.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Outdoor gourmet dining" loading="eager"></div>
+        </div>
+        <div class="fe-it">
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/32691654/pexels-photo-32691654.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Stone villa facade" loading="eager"></div>
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">03 / 06</span>
+            <h4>Your own domain</h4>
+            <p>YourVillaName.com — Google-indexed, Search Console optimised. Guests search your villa and find you, not your listing page.</p>
+          </div>
+        </div>
+        <div class="fe-it">
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">04 / 06</span>
+            <h4>Live calendar sync</h4>
+            <p>Guests view real-time availability and submit enquiries directly. No double-bookings. No platform holding your dates.</p>
+          </div>
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/8730448/pexels-photo-8730448.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Sun loungers by pool" loading="eager"></div>
+        </div>
+        <div class="fe-it">
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/37286912/pexels-photo-37286912.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Mediterranean dining with sea view" loading="eager"></div>
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">05 / 06</span>
+            <h4>Mobile-optimised</h4>
+            <p>70% of villa browsers are on phones. Fast-loading, clear, and conversion-friendly on any screen — wherever guests scroll.</p>
+          </div>
+        </div>
+        <div class="fe-it">
+          <div class="fe-it-tx">
+            <span class="fe-it-nm">06 / 06</span>
+            <h4>Guest data — yours</h4>
+            <p>Email capture, guest lists, retargeting — all under your control. Build relationships that bring guests back year after year.</p>
+          </div>
+          <div class="fe-it-im"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=2" alt="Warm villa interior" loading="eager"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROCESS ═══ -->
+  <section id="how">
+    <div class="c" style="text-align:center;">
+      <span class="te">The Timeline</span>
+      <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin:12px 0 36px;">
+        From a call to live in <span class="amb">seven days.</span>
+      </h2>
+    </div>
+    <div class="cn">
+      <div class="pg">
+        <div class="ps">
+          <div class="nm">01</div>
+          <h4>Discovery</h4>
+          <p>A 30-minute call to understand your villa, your photography, and your selling points. We sketch a concept before we hang up.</p>
+        </div>
+        <div class="ps">
+          <div class="nm">02</div>
+          <h4>Design</h4>
+          <p>Within 48 hours you receive a live preview link. One round of feedback, one revision. You approve — we build.</p>
+        </div>
+        <div class="ps">
+          <div class="nm">03</div>
+          <h4>Integration</h4>
+          <p>Calendar sync, Stripe payments, domain registration, DNS, SSL — all wired while you focus on your guests.</p>
+        </div>
+        <div class="ps">
+          <div class="nm">04</div>
+          <h4>Launch</h4>
+          <p>Site deployed. Domain resolving. Google indexed. You share the link — your villa has its own front door online.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIAL ═══ -->
+  <div class="tw">
+    <div class="tw-bg">
+      <img src="https://images.pexels.com/photos/37286899/pexels-photo-37286899.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=2"
+           alt="Sunset dining by the sea" loading="eager">
+    </div>
+    <div class="tw-cd">
+      <div class="qmark">"</div>
+      <blockquote class="tq" style="font-size:clamp(18px,2.5vw,26px);">
+        I was losing nearly eight thousand euros a year to Airbnb fees. My VillaSite microsite paid for itself in the first three direct bookings. Now guests remember my villa's name — not Airbnb's.
+      </blockquote>
+      <div class="at">
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+          <span style="width:36px;height:36px;border-radius:50%;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:14px;color:var(--amber);transition:background .6s;">A</span>
+          <span style="font-size:14px;font-weight:500;">Andreas Skiadopoulos</span>
+          <span style="font-size:12px;color:var(--ink-dim);">· Superhost, Delos Properties · Mykonos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRICING ═══ -->
+  <section class="sa" id="pricing">
+    <div class="c" style="text-align:center;">
+      <span class="te">Investment</span>
+      <h2 class="th" style="font-size:clamp(24px,3.5vw,38px);margin:12px 0 10px;">
+        One build. <span class="amb">Lifetime returns.</span>
+      </h2>
+      <p class="tb" style="max-width:520px;margin:0 auto 36px;">
+        Pay once for the microsite. Hosting is €15/month — recouped with a single direct booking. Your site earns its keep in the first few guests.
+      </p>
+    </div>
+    <div class="c">
+      <div class="pr">
+        <div class="pc">
+          <div class="pc-im"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600&dpr=2" alt="Interior" loading="eager"></div>
+          <div class="pc-bd">
+            <h3>Solo</h3>
+            <p class="desc">For the independent host ready to go direct.</p>
+            <div class="prc">€499</div>
+            <div class="sub">one-time + €15/mo</div>
+            <ul>
+              <li>Single-page microsite</li>
+              <li>Up to 12 curated images</li>
+              <li>Booking calendar embed</li>
+              <li>Payment link integration</li>
+              <li>Mobile-responsive design</li>
+              <li>Domain setup assistance</li>
+            </ul>
+            <a href="#cta" class="btn btn-ol">Choose Solo</a>
+          </div>
+        </div>
+        <div class="pc feat">
+          <div class="pc-im"><img src="https://images.pexels.com/photos/37030525/pexels-photo-37030525.jpeg?auto=compress&cs=tinysrgb&w=600&dpr=2" alt="Bougainvillea terrace" loading="eager"></div>
+          <div class="pc-bd">
+            <span class="pc-bg">Most Selected</span>
+            <h3>Pro</h3>
+            <p class="desc">Everything you need to build a direct channel.</p>
+            <div class="prc">€999</div>
+            <div class="sub">one-time + €15/mo</div>
+            <ul>
+              <li>Everything in Solo</li>
+              <li>Unlimited photography gallery</li>
+              <li>Custom domain registration (1yr)</li>
+              <li>Email capture + guest list</li>
+              <li>Retargeting pixel setup</li>
+              <li>Google Search Console indexing</li>
+              <li>2 revision rounds</li>
+            </ul>
+            <a href="#cta" class="btn btn-pm">Go Pro</a>
+          </div>
+        </div>
+        <div class="pc">
+          <div class="pc-im"><img src="https://images.pexels.com/photos/35069530/pexels-photo-35069530.jpeg?auto=compress&cs=tinysrgb&w=600&dpr=2" alt="Infinity pool sunset" loading="eager"></div>
+          <div class="pc-bd">
+            <h3>Premium</h3>
+            <p class="desc">For the villa that operates like a boutique hotel.</p>
+            <div class="prc">€1,999</div>
+            <div class="sub">one-time + €15/mo</div>
+            <ul>
+              <li>Everything in Pro</li>
+              <li>Multi-page site (up to 5 pages)</li>
+              <li>Blog integration for SEO</li>
+              <li>Multi-language (up to 3)</li>
+              <li>Automated guest email sequences</li>
+              <li>Monthly analytics reports</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="#cta" class="btn btn-ol">Choose Premium</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq">
+    <div class="c" style="text-align:center;">
+      <span class="te">Common Questions</span>
+      <h2 class="th" style="font-size:clamp(24px,3.5vw,36px);margin:12px 0 36px;">
+        Everything hosts <span class="amb">ask first.</span>
+      </h2>
+    </div>
+    <div class="fq">
+      <div class="fq-it">
+        <div class="fq-q"><span>Does this violate Airbnb's terms?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>No. You own the property. Marketing it independently is standard practice — most Superhosts operate both channels without issue. Airbnb's terms restrict scraping and automated booking, not your right to have your own website.</p></div>
+      </div>
+      <div class="fq-it">
+        <div class="fq-q"><span>What if I'm not technical?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>You don't need to touch a single setting. We handle domain registration, DNS configuration, SSL certificates, calendar integration, and payment links. You send us your best photos and text — we ship a finished, live site.</p></div>
+      </div>
+      <div class="fq-it">
+        <div class="fq-q"><span>How do guests find my site?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>Three channels: Google indexing (we set up Search Console), links from your Airbnb profile and Instagram bio, and automated guest emails. Over time, travellers searching your villa's name find your site first.</p></div>
+      </div>
+      <div class="fq-it">
+        <div class="fq-q"><span>Can I keep my Airbnb listing too?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>Absolutely. Most hosts run both. Airbnb handles discovery for new guests; your microsite captures repeat and referral guests at zero commission. The two channels feed each other — more visibility, more direct bookings.</p></div>
+      </div>
+      <div class="fq-it">
+        <div class="fq-q"><span>What about payment security?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>We integrate Stripe payment links — the same infrastructure used by millions of businesses worldwide. Guests pay securely by card. Funds settle directly to your bank account. No third-party processors, no risk.</p></div>
+      </div>
+      <div class="fq-it">
+        <div class="fq-q"><span>Is the €15/mo hosting mandatory?</span><span class="pl">+</span></div>
+        <div class="fq-a"><p>It covers your domain renewal, SSL certificate, hosting, and 24/7 uptime monitoring. If you already have a domain and hosting setup, we can deploy your site there instead. The €15 plan is the hassle-free default.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cts" id="cta">
+    <div class="ctb">
+      <img src="https://images.pexels.com/photos/37286899/pexels-photo-37286899.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=2"
+           alt="Sunset dining by the sea" loading="eager">
+    </div>
+    <div class="ctc">
+      <h2 class="td" style="font-size:clamp(28px,3.5vw,42px);margin-bottom:14px;">
+        Stop funding the <span class="amb">Airbnb tax.</span>
+      </h2>
+      <p style="margin-bottom:24px;font-size:15px;line-height:1.6;">
+        Book a 20-minute discovery call. We'll look at your listing, your photos, and sketch a microsite concept on the spot. No pitch — just a plan.
+      </p>
+      <a href="#" class="btn btn-lt btn-lg">Book Your Call →</a>
+      <div style="margin-top:14px;">
+        <span style="font-size:13px;color:rgba(255,255,255,.6);">Or write to us at</span>
+        <a href="mailto:hello@villasite.co" style="color:var(--amber);text-decoration:none;font-size:13px;margin-left:4px;">hello@villasite.co</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="ft">
+    <div class="c">
+      <div class="fgw">
+        <div>
+          <div class="nv-br" style="margin-bottom:10px;">Villa<span class="amb">Site</span></div>
+          <p style="font-size:13px;color:var(--ink-dim);max-width:260px;line-height:1.6;">Custom direct-booking microsites for villa Superhosts who are ready to own their guest relationships and their brand equity.</p>
+        </div>
+        <div>
+          <h5>Pages</h5>
+          <a href="#features">Features</a>
+          <a href="#how">Process</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div>
+          <h5>Contact</h5>
+          <a href="mailto:hello@villasite.co">hello@villasite.co</a>
+          <span style="display:block;font-size:13px;color:var(--ink-dim);margin-top:4px;">Response within 24h</span>
+        </div>
+        <div>
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+      <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border);text-align:center;">
+        <p style="font-size:12px;color:var(--ink-dim);">© 2026 VillaSite. Built for hosts who believe their villa deserves its own front door online.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ══ HAMBURGER MENU ══
+    const nav = document.getElementById('siteNav');
+    const hamBtn = document.getElementById('hamBtn');
+    const overlay = document.getElementById('navOverlay');
+    let menuOpen = false;
+
+    function openMenu() {
+      nav.classList.add('menu-open');
+      menuOpen = true;
+    }
+    function closeMenu() {
+      nav.classList.remove('menu-open');
+      menuOpen = false;
+    }
+    function toggleMenu() {
+      menuOpen ? closeMenu() : openMenu();
+    }
+
+    if (hamBtn) hamBtn.addEventListener('click', toggleMenu);
+    if (overlay) overlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.nv-mob-link, .nv-lk a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        closeMenu();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+      });
+    });
+
+    // ══ THEME TOGGLE (Day ↔ Dusk) ══
+    function toggleTheme() {
+      document.documentElement.classList.toggle('theme-dusk');
+    }
+    const themeDesk = document.getElementById('themeBtnDesktop');
+    const themeMob = document.getElementById('themeBtnMobile');
+    if (themeDesk) themeDesk.addEventListener('click', toggleTheme);
+    if (themeMob) themeMob.addEventListener('click', toggleTheme);
+
+    // ══ INTERACTIVE ROI CALCULATOR ══
+    const slider = document.getElementById('roiSlider');
+    const revEl = document.getElementById('roiRev');
+    const feeEl = document.getElementById('roiFee');
+    const yearEl = document.getElementById('roiYear');
+    const savedEl = document.getElementById('roiSaved');
+
+    function calcROI(val) {
+      const revenue = parseInt(val);
+      const fee = Math.round(revenue * 0.155);
+      const yearly = fee * 12;
+      const saved = yearly - 180;
+      revEl.textContent = '€' + revenue.toLocaleString();
+      feeEl.textContent = '€' + fee.toLocaleString();
+      yearEl.textContent = '€' + yearly.toLocaleString();
+      savedEl.textContent = '€' + saved.toLocaleString();
+    }
+    if (slider) {
+      calcROI(slider.value);
+      slider.addEventListener('input', function() { calcROI(this.value); });
+    }
+
+    // ══ FAQ ACCORDION ══
+    document.querySelectorAll('.fq-it').forEach(item => {
+      const q = item.querySelector('.fq-q');
+      const a = item.querySelector('.fq-a');
+      q.addEventListener('click', function() {
+        const isOpen = a.classList.contains('show');
+        document.querySelectorAll('.fq-a.show').forEach(el => {
+          el.classList.remove('show');
+          el.closest('.fq-it').querySelector('.fq-q').classList.remove('open');
+        });
+        if (!isOpen) {
+          a.classList.add('show');
+          q.classList.add('open');
+        }
+      });
+    });
+
+    // ══ WARM SCROLL REVEAL ══
+    // Pure IntersectionObserver — zero lib, zero flash, zero conflict
+    const wr = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('wv');
+          wr.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    // Add .reveal class and observe content elements for fade-in
+    document.querySelectorAll(
+      '.te, .th, .fe-it, .ps, .pc, .fq-it, .ctc, .tw-cd, ' +
+      '.nm, .fgw > div, .mg-tx, .mg-im, .roi-wrap'
+    ).forEach(el => {
+      el.classList.add('reveal');
+      wr.observe(el);
+    });
+  </script>
+</body>
+</html>
