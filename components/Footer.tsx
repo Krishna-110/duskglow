@@ -88,10 +88,10 @@ export default function Footer({ onOpenBookCall }: FooterProps) {
           <motion.p variants={fadeUp} className="mt-7 text-[13px] text-white/65">
             Or write to us at{' '}
             <a
-              href="mailto:hello@duskglow.co"
+              href="mailto:hello@duskglow.site"
               className="link-u text-amber-light font-medium"
             >
-              hello@duskglow.co
+              hello@duskglow.site
             </a>
           </motion.p>
         </motion.div>
@@ -141,10 +141,10 @@ export default function Footer({ onOpenBookCall }: FooterProps) {
             <div className="md:col-span-2">
               <h2 className="te mb-3">Contact</h2>
               <a
-                href="mailto:hello@duskglow.co"
+                href="mailto:hello@duskglow.site"
                 className="group flex items-center min-h-[34px] text-[13px] text-ink-soft hover:text-amber transition-colors"
               >
-                <span className="link-u">hello@duskglow.co</span>
+                <span className="link-u">hello@duskglow.site</span>
               </a>
               <span className="tbsm !text-[12px] block mt-1.5">
                 Response within 24 hours

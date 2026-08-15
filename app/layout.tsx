@@ -20,7 +20,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://duskglow.co'),
+  metadataBase: new URL('https://duskglow.site'),
   title: 'Duskglow — Direct Booking Sites for Villas & Short-Term Rentals',
   description:
     'Custom direct-booking microsites for luxury villa hosts — and any short-term rental. Turn Airbnb guests into repeat direct bookers with zero commissions, your own domain, and live calendar integration.',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: 'Duskglow — Own the moment. Own the guest.',
     description:
       'Direct-booking microsites for short-term rental hosts. Eliminate 15.5% Airbnb commissions forever.',
-    url: 'https://duskglow.co',
+    url: 'https://duskglow.site',
     siteName: 'Duskglow',
     locale: 'en_US',
     type: 'website',
