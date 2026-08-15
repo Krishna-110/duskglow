@@ -18,9 +18,11 @@ interface VillaPreviewModalProps {
  * without leaving this page.
  */
 const DEMO_URL = 'https://villaparadiso.devs.surf';
-/* The real domain now, so the address bar isn't a fiction — a prospect can
-   read it, open it, and land on the same site. */
-const DISPLAY_DOMAIN = 'villaparadiso.devs.surf';
+/* Shown in the address bar only. The point of the demo is "this is your site
+   on your own domain", and a .com reads as a real villa business where the
+   hosting subdomain reads as a sandbox. The LIVE DEMO badge marks it, and the
+   open-in-new-tab control still goes to DEMO_URL. */
+const DISPLAY_DOMAIN = 'villaparadiso.com';
 
 /** The width the framed site is rendered at before being scaled to fit. */
 const DESKTOP_W = 1440;
