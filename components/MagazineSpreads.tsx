@@ -158,9 +158,12 @@ function Spread({
               </span>
             </motion.div>
 
+            {/* Playfair italic, not Outfit + `italic`. Outfit is only loaded in
+                normal style, so the browser was shearing the upright face into
+                a synthetic oblique. Playfair's true italic is already loaded. */}
             <motion.figcaption
               variants={fadeUp}
-              className="tbsm !text-[12.5px] mt-4 pl-4 border-l border-amber-line italic"
+              className="tq !text-[13.5px] !leading-[1.5] text-ink-dim mt-4 pl-4 border-l border-amber-line"
             >
               {caption}
             </motion.figcaption>
