@@ -3,12 +3,22 @@ import { Playfair_Display, Outfit } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from './providers';
 
+/**
+ * Declares only the weights the stylesheet asks for: every `font-weight: 500`
+ * in globals.css is on an Outfit element (.te, .btn, .label, .seg), so the
+ * serif is only ever 400 or 600, and nothing uses Outfit 300.
+ *
+ * Note this is documentation, not a saving — Google serves both families as
+ * variable fonts, so one file per family/style carries the whole weight axis
+ * regardless of what is listed here. Three files, 107KB, whether this says
+ * two weights or five. The only real lever left would be dropping the italic
+ * Playfair file (31KB), and italic accents are core to the brand.
+ */
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   display: 'swap',
-  // Display type carries the brand — load the weights the design actually uses.
-  weight: ['400', '500', '600'],
+  weight: ['400', '600'],
   style: ['normal', 'italic'],
 });
 
@@ -16,7 +26,7 @@ const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
   display: 'swap',
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600'],
 });
 
 export const metadata: Metadata = {
