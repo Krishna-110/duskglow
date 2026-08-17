@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Lock, Sparkles, ExternalLink, RotateCw } from 'lucide-react';
 import ModalShell from '@/components/ui/ModalShell';
@@ -24,49 +24,14 @@ const DEMO_URL = 'https://villaparadiso.devs.surf';
    open-in-new-tab control still goes to DEMO_URL. */
 const DISPLAY_DOMAIN = 'villaparadiso.com';
 
-/** The width the framed site is rendered at before being scaled to fit. */
-const DESKTOP_W = 1440;
-/** Below this, scaling would make text unreadable — show the real mobile layout instead. */
-const SCALE_FLOOR = 700;
-
 export default function VillaPreviewModal({ isOpen, onClose }: VillaPreviewModalProps) {
   const [loaded, setLoaded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
-  const stageRef = useRef<HTMLDivElement>(null);
-  const [frame, setFrame] = useState({ w: DESKTOP_W, h: 900, scale: 1 });
 
   // Re-arm the loader each time the modal opens so the skeleton shows again.
   useEffect(() => {
     if (!isOpen) setLoaded(false);
   }, [isOpen]);
-
-  /**
-   * An iframe's own width decides which breakpoints the framed site hits, so a
-   * narrow frame renders the *mobile* layout inside desktop browser chrome.
-   * Instead the site is rendered at a real desktop width and scaled down to
-   * fit — below SCALE_FLOOR that would be illegible, so there we let it render
-   * natively and show its genuine mobile layout.
-   */
-  const measure = useCallback(() => {
-    const el = stageRef.current;
-    if (!el) return;
-    const { clientWidth: w, clientHeight: h } = el;
-    if (w < SCALE_FLOOR) setFrame({ w, h, scale: 1 });
-    else {
-      const scale = w / DESKTOP_W;
-      setFrame({ w: DESKTOP_W, h: Math.round(h / scale), scale });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    measure();
-    const el = stageRef.current;
-    if (!el || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [isOpen, measure]);
 
   return (
     <ModalShell
@@ -134,10 +99,7 @@ export default function VillaPreviewModal({ isOpen, onClose }: VillaPreviewModal
       {/* overscroll-contain stops a scroll that reaches the frame's end from
           chaining to the page behind it — the usual cause of a nested scroll
           area feeling like it fights the parent on touch. */}
-      <div
-        ref={stageRef}
-        className="relative flex-1 overflow-hidden bg-[#faf7f2] [overscroll-behavior:contain] touch-pan-y"
-      >
+      <div className="relative flex-1 overflow-hidden bg-[#faf7f2] [overscroll-behavior:contain] touch-pan-y">
         <h2 id="villa-preview-title" className="sr-only">
           Live demo — Villa Paradiso direct booking site
         </h2>
@@ -169,13 +131,17 @@ export default function VillaPreviewModal({ isOpen, onClose }: VillaPreviewModal
           src={DEMO_URL}
           title="Villa Paradiso — live direct booking demo"
           onLoad={() => setLoaded(true)}
-          className="border-0 block"
-          style={{
-            width: frame.w,
-            height: frame.h,
-            transform: `scale(${frame.scale})`,
-            transformOrigin: 'top left',
-          }}
+          /*
+           * Natural size, no transform. This used to render at 1440px and
+           * scale down to fit, which made text soft — the layer is rasterised
+           * then resampled — and made scrolling inside the frame expensive,
+           * since a scaled iframe re-composites on every paint.
+           *
+           * The scale was never needed: the panel is max-w-6xl (1152px) and the
+           * framed site's widest breakpoint is 1100px, so at natural size it
+           * already renders the full desktop layout.
+           */
+          className="w-full h-full border-0 block"
           /*
            * allow-same-origin is required: without it the frame gets an opaque
            * origin and localStorage throws, which kills the demo's 3-hour
