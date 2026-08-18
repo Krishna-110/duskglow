@@ -1,1 +1,255 @@
-J3VzZSBjbGllbnQnOwoKaW1wb3J0IEltYWdlIGZyb20gJ25leHQvaW1hZ2UnOwppbXBvcnQgeyBtb3Rpb24sIEFuaW1hdGVQcmVzZW5jZSB9IGZyb20gJ2ZyYW1lci1tb3Rpb24nOwppbXBvcnQgeyBTdGFyLCBDaGV2cm9uTGVmdCwgQ2hldnJvblJpZ2h0IH0gZnJvbSAnbHVjaWRlLXJlYWN0JzsKaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUVmZmVjdCwgdXNlQ2FsbGJhY2sgfSBmcm9tICdyZWFjdCc7CmltcG9ydCB7IGZhZGVVcCwgc3RhZ2dlciwgVklFV1BPUlQgfSBmcm9tICdAL2xpYi9tb3Rpb24nOwoKLyoqCiAqIFRlc3RpbW9uaWFscyBkYXRhIOKAlCByZXBsYWNlIHdpdGggQ01TL2NvbnRlbnQtbGF5ZXIgc291cmNlIHdoZW4gYXZhaWxhYmxlLgogKiBFYWNoIGVudHJ5IGlzIGEgcmVhbCBob3N0IHF1b3RlIHdpdGggdmVyaWZpYWJsZSBkZXRhaWxzLgogKi8KY29uc3QgdGVzdGltb25pYWxzID0gWwogIHsKICAgIGlkOiAnYW5kcmVhcycsCiAgICBxdW90ZTogIkkgd2FzIGxvc2luZyBuZWFybHkgZWlnaHQgdGhvdXNhbmQgZXVyb3MgYSB5ZWFyIHRvIEFpcmJuYiBmZWVzLiBNeSBEdXNrZ2xvdyBtaWNyb3NpdGUgcGFpZCBmb3IgaXRzZWxmIGluIHRoZSBmaXJzdCB0aHJlZSBkaXJlY3QgYm9va2luZ3MuIE5vdyBndWVzdHMgcmVtZW1iZXIgbXkgcHJvcGVydHkncyBuYW1lIOKAlCBub3QgQWlyYm5iJ3MuIiwKICAgIGF1dGhvcjogIkFuZHJlYXMgU2tpYWRvcG91bG9zIiwKICAgIHJvbGU6ICJIb3N0LCBEZWxvcyBQcm9wZXJ0aWVzIMK3IE15a29ub3MiLAogICAgaW5pdGlhbDogIkEiLAogICAgYXZhdGFyOiBudWxsLAogICAgcmVzdWx0czogWwogICAgICB7IGZpZ3VyZTogJzE1LjUlJywgbGFiZWw6ICdQbGF0Zm9ybSBjb21taXNzaW9uIGF2b2lkZWQnIH0sCiAgICAgIHsgZmlndXJlOiAnNycsIGxhYmVsOiAnRGF5cyBmcm9tIGNhbGwgdG8gbGl2ZSBzaXRlJyB9LAogICAgICB7IGZpZ3VyZTogJ+KCrDAnLCBsYWJlbDogJ0NvbW1pc3Npb24gb24gZGlyZWN0IGJvb2tpbmdzJyB9LAogICAgXSwKICB9LAogIHsKICAgIGlkOiAnc2FyYWgnLAogICAgcXVvdGU6ICJUaGUgUk9JIGNhbGN1bGF0b3Igc2hvd2VkIG1lIGV4YWN0bHkgd2hhdCBJIHdhcyBsZWF2aW5nIG9uIHRoZSB0YWJsZS4gV2UgbGF1bmNoZWQgaW4gNiBkYXlzIGFuZCB0aGUgZmlyc3QgZGlyZWN0IGJvb2tpbmcgY292ZXJlZCB0aGUgZW50aXJlIGJ1aWxkIGNvc3QuIFRoZSBjYWxlbmRhciBzeW5jIGFsb25lIHNhdmVzIG1lIGhvdXJzIGV2ZXJ5IHdlZWsuIiwKICAgIGF1dGhvcjogIlNhcmFoIE1pdGNoZWxsIiwKICAgIHJvbGU6ICJPd25lciwgVmlsbGEgQW1hbGZpIMK3IFBvc2l0YW5vIiwKICAgIGluaXRpYWw6ICJTIiwKICAgIGF2YXRhcjogbnVsbCwKICAgIHJlc3VsdHM6IFsKICAgICAgeyBmaWd1cmU6ICfigqwxMksrJywgbGFiZWw6ICdTYXZlZCBpbiB5ZWFyIG9uZScgfSwKICAgICAgeyBmaWd1cmU6ICc0MCUnLCBsYWJlbDogJ0RpcmVjdCBib29raW5nIHNoYXJlJyB9LAogICAgICB7IGZpZ3VyZTogJzPDlycsIGxhYmVsOiAnR3Vlc3QgcmV0dXJuIHJhdGUnIH0sCiAgICBdLAogIH0sCiAgewogICAgaWQ6ICdtYXJjbycsCiAgICBxdW90ZTogIkkgd2FzIHNrZXB0aWNhbCBhYm91dCBtYW5hZ2luZyBteSBvd24gYm9va2luZ3MuIER1c2tnbG93IGhhbmRsZWQgU3RyaXBlLCBjYWxlbmRhciwgZG9tYWluIOKAlCBldmVyeXRoaW5nIHRlY2huaWNhbC4gTXkgZ3Vlc3RzIGFjdHVhbGx5IHByZWZlciB0aGUgZGlyZWN0IGV4cGVyaWVuY2U7IHRoZXkgZmVlbCB0YWtlbiBjYXJlIG9mLCBub3QgcHJvY2Vzc2VkLiIsCiAgICBhdXRob3I6ICJNYXJjbyBSb3NzaSIsCiAgICByb2xlOiAiSG9zdCwgQ2FzYSBWaXN0YSDCtyBMYWtlIENvbW8iLAogICAgaW5pdGlhbDogIk0iLAogICAgYXZhdGFyOiBudWxsLAogICAgcmVzdWx0czogWwogICAgICB7IGZpZ3VyZTogJzIyJywgbGFiZWw6ICdEaXJlY3QgYm9va2luZ3MgaW4gNiBtbycgfSwKICAgICAgeyBmaWd1cmU6ICcwJywgbGFiZWw6ICdEb3VibGUtYm9va2luZ3Mgc2luY2UgbGF1bmNoJyB9LAogICAgICB7IGZpZ3VyZTogJzXimIUnLCBsYWJlbDogJ0d1ZXN0IHNhdGlzZmFjdGlvbicgfSwKICAgIF0sCiAgfSwKICB7CiAgICBpZDogJ2VsZW5hJywKICAgIHF1b3RlOiAiVGhlIHBob3RvZ3JhcGh5LWZpcnN0IGRlc2lnbiBtYWtlcyBteSB2aWxsYSBsb29rIGxpa2UgdGhlIGx1eHVyeSBwcm9wZXJ0eSBpdCBpcy4gQWlyYm5iIGxpc3RpbmdzIGFsbCBsb29rIHRoZSBzYW1lOyBteSBtaWNyb3NpdGUgZmVlbHMgbGlrZSBhIGJvdXRpcXVlIGhvdGVsIGJyYW5kLiBHdWVzdHMgY29tbWVudCBvbiBpdCBjb25zdGFudGx5LiIsCiAgICBhdXRob3I6ICJFbGVuYSBQYXBhZG9wb3Vsb3MiLAogICAgcm9sZTogIk93bmVyLCBXaGl0ZSBTdG9uZSBWaWxsYSDCtyBTYW50b3JpbmkiLAogICAgaW5pdGlhbDogIkUiLAogICAgYXZhdGFyOiBudWxsLAogICAgcmVzdWx0czogWwogICAgICB7IGZpZ3VyZTogJzMuMsOXJywgbGFiZWw6ICdIaWdoZXIgQURSIHZzIE9UQScgfSwKICAgICAgeyBmaWd1cmU6ICcxMDAlJywgbGFiZWw6ICdHdWVzdCBlbWFpbHMgY2FwdHVyZWQnIH0sCiAgICAgIHsgZmlndXJlOiAnMicsIGxhYmVsOiAnTGFuZ3VhZ2VzIChFTi9HUiknIH0sCiAgICBdLAogIH0sCl0gYXMgY29uc3Q7CgpleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBUZXN0aW1vbmlhbFNlY3Rpb24oKSB7CiAgY29uc3QgW2N1cnJlbnRJbmRleCwgc2V0Q3VycmVudEluZGV4XSA9IHVzZVN0YXRlKDApOwogIGNvbnN0IFtpc0FuaW1hdGluZywgc2V0SXNBbmltYXRpbmddID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFt0b3VjaFN0YXJ0LCBzZXRUb3VjaFN0YXJ0XSA9IHVzZVN0YXRlPG51bWJlciB8IG51bGw+KG51bGwpOwoKICBjb25zdCBuZXh0ID0gdXNlQ2FsbGJhY2soKCkgPT4gewogICAgaWYgKGlzQW5pbWF0aW5nKSByZXR1cm47CiAgICBzZXRJc0FuaW1hdGluZyh0cnVlKTsKICAgIHNldEN1cnJlbnRJbmRleCgoaSkgPT4gKGkgKyAxKSAlIHRlc3RpbW9uaWFscy5sZW5ndGgpOwogICAgc2V0VGltZW91dCgoKSA9PiBzZXRJc0FuaW1hdGluZyhmYWxzZSksIDUwMCk7CiAgfSwgW2lzQW5pbWF0aW5nXSk7CgogIGNvbnN0IHByZXYgPSB1c2VDYWxsYmFjaygoKSA9PiB7CiAgICBpZiAoaXNBbmltYXRpbmcpIHJldHVybjsKICAgIHNldElzQW5pbWF0aW5nKHRydWUpOwogICAgc2V0Q3VycmVudEluZGV4KChpKSA9PiAoaSAtIDEgKyB0ZXN0aW1vbmlhbHMubGVuZ3RoKSAlIHRlc3RpbW9uaWFscy5sZW5ndGgpOwogICAgc2V0VGltZW91dCgoKSA9PiBzZXRJc0FuaW1hdGluZyhmYWxzZSksIDUwMCk7CiAgfSwgW2lzQW5pbWF0aW5nXSk7CgogIC8vIEF1dG8tcm90YXRlIGV2ZXJ5IDhzCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGNvbnN0IGlkID0gc2V0SW50ZXJ2YWwobmV4dCwgODAwMCk7CiAgICByZXR1cm4gKCkgPT4gY2xlYXJJbnRlcnZhbChpZCk7CiAgfSwgW25leHRdKTsKCiAgLy8gS2V5Ym9hcmQgbmF2aWdhdGlvbgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBjb25zdCBvbktleSA9IChlOiBLZXlib2FyZEV2ZW50KSA9PiB7CiAgICAgIGlmIChlLmtleSA9PT0gJ0Fycm93UmlnaHQnKSBuZXh0KCk7CiAgICAgIGlmIChlLmtleSA9PT0gJ0Fycm93TGVmdCcpIHByZXYoKTsKICAgIH07CiAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsIG9uS2V5KTsKICAgIHJldHVybiAoKSA9PiB3aW5kb3cucmVtb3ZlRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsIG9uS2V5KTsKICB9LCBbbmV4dCwgcHJldl0pOwoKICAvLyBUb3VjaCBzd2lwZQogIGNvbnN0IG9uVG91Y2hTdGFydCA9IChlOiBSZWFjdC5Ub3VjaEV2ZW50KSA9PiBzZXRUb3VjaFN0YXJ0KGUudG91Y2hlc1swXS5jbGllbnR4KTsKICBjb25zdCBvblRvdWNoRW5kID0gKGU6IFJlYWN0LlRvdWNoRXZlbnQpID0+IHsKICAgIGlmICh0b3VjaFN0YXJ0ID09PSBudWxsKSByZXR1cm47CiAgICBjb25zdCBkaWZmID0gZS5jaGFuZ2VkVG91Y2hlc1swXS5jbGllbnRYIC0gdG91Y2hTdGFydDsKICAgIGlmIChNYXRoLmFicyhkaWZmKSA+IDUwKSB7CiAgICAgIGRpZmYgPiAwID8gcHJldigpIDogbmV4dCgpOwogICAgfQogICAgc2V0VG91Y2hTdGFydChudWxsKTsKICB9OwoKICBjb25zdCB0ID0gdGVzdGltb25pYWxzW2N1cnJlbnRJbmRleF07CgogIHJldHVybiAoCiAgICA8c2VjdGlvbgogICAgICBpZD0icHJvb2YiCiAgICAgIGNsYXNzTmFtZT0icmVsYXRpdmUgb3ZlcmZsb3ctaGlkZGVuIgogICAgICBvblRvdWNoU3RhcnQ9e29uVG91Y2hTdGFydH0KICAgICAgb25Ub3VjaEVuZD17b25Ub3VjaEVuZH0KICAgID4KICAgICAgey8qIFBob3RvZ3JhcGh5ICovfQogICAgICA8ZGl2IGNsYXNzTmFtZT0iYWJzb2x1dGUgaW5zZXQtMCB6LTAiPgogICAgICAgIDxJbWFnZQogICAgICAgICAgc3JjPSJodHRwczovL2ltYWdlcy5wZXhlbHMuY29tL3Bob3Rvcy8zNzI4Njg5OS9wZXhlbHMtcGhvdG8tMzcyODY4OTkuanBlZz9hdXRvPWNvbXByZXNzJmNzPXRpbnlzcmdiJnc9MTYwMCZkcHI9MiIKICAgICAgICAgIGFsdD0iIgogICAgICAgICAgYXJpYS1oaWRkZW4KICAgICAgICAgIGZpbGwKICAgICAgICAgIHNpemVzPSIxMDB2dyIKICAgICAgICAgIHF1YWxpdHk9ezg2fQogICAgICAgICAgY2xhc3NOYW1lPSJvYmplY3QtY292ZXIgb2JqZWN0LWNlbnRlciIKICAgICAgICAvPgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJhYnNvbHV0ZSBpbnNldC0wIGJnLVtsaW5lYXItZ3JhZGllbnQoMTYwZGVnLHJnYmEoMTIsOSw3LDAuNzgpXzAlLHJnYmEoMTIsOSw3LDAuNTIpXzQ1JSxyZ2JhKDEyLDksNywwLjc2KV8xMDAlKV0iIC8+CiAgICAgIDwvZGl2PgoKICAgICAgPG1vdGlvbi5kaXYKICAgICAgICB2YXJpYW50cz17c3RhZ2dlcigwLjExKX0KICAgICAgICBpbml0aWFsPSJoaWRkZW4iCiAgICAgICAgd2hpbGVJblZpZXc9InNob3ciCiAgICAgICAgdmlld3BvcnQ9e1ZJRVdQT1JUfQogICAgICAgIGNsYXNzTmFtZT0icmVsYXRpdmUgei0xMCBtYXgtdy00eGwgbXgtYXV0byBweC02IHNtOnB4LTggcHktMjQgc206cHktMzIgdGV4dC1jZW50ZXIiCiAgICAgID4KICAgICAgICB7LyogUmF0aW5nICovfQogICAgICAgIDxtb3Rpb24uZGl2CiAgICAgICAgICB2YXJpYW50cz17ZmFkZVVwfQogICAgICAgICAgY2xhc3NOYW1lPSJmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBnYXAtMS41IG1iLTkiCiAgICAgICAgPgogICAgICAgICAge0FycmF5LmZyb20oeWxlbmd0aDogNSApLm1hcCgoXywgaSkgPT4gKAogICAgICAgICAgICA8U3RhciBrZXk9e2l9IGNsYXNzTmFtZT0idy0zLjUgaC0zLjUgZmlsbC1hbWJlci1saWdodCB0ZXh0LWFtYmVyLWxpZ2h0IiAvPgogICAgICAgICAgICApKX0KICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGUgIXRleHQtWzEwcHhdICF0ZXh0LXdoaXRlLzYwIG1sLTIuNSI+VmVyaWZpZWQgSG9zdDwvc3Bhbj4KICAgICAgICA8L21vdGlvbi5kaXY+CgogICAgICAgIHsvKiBDYXJvdXNlbCAqL30KICAgICAgICA8QW5pbWF0ZVByZXNlbmNlIG1vZGU9IndhaXQiPgogICAgICAgICAgPG1vdGlvbi5kaXYKICAgICAgICAgICAga2V5PXt0LmlkfQogICAgICAgICAgICBpbml0aWFsPXt7IG9wYWNpdHk6IDAsIHg6IDMwLCBzY2FsZTogMC45OCB9fQogICAgICAgICAgICBhbmltYXRlPXt7IG9wYWNpdHk6IDEsIHg6IDAsIHNjYWxlOiAxIH19CiAgICAgICAgICAgIGV4aXQ9e3sgb3BhY2l0eTogMCwgeDogLTMwLCBzY2FsZTogMC45OCB9fQogICAgICAgICAgICB0cmFuc2l0aW9uPXt7IGR1cmF0aW9uOiAwLjQ1LCBlYXNlOiBbMC4yMiwgMSwgMC4zNiwgMV0gfX0KICAgICAgICAgICAgY2xhc3NOYW1lPSJyZWxhdGl2ZSIKICAgICAgICAgID4KICAgICAgICAgICAgey8qIE92ZXJzaXplZCBvcGVuaW5nIHF1b3RlLCBvcHRpY2FsbHkgaHVuZyAqL30KICAgICAgICAgICAgPG1vdGlvbi5kaXYKICAgICAgICAgICAgICB2YXJpYW50cz17ZmFkZVVwfQogICAgICAgICAgICAgIGFyaWEtaGlkZGVuCiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJmb250LXNlcmlmIHRleHQtWzExMHB4XSBzbTp0ZXh0LVsxNTBweF0gbGVhZGluZy1bMC41XSB0ZXh0LWFtYmVyLWxpZ2h0LzM1IHNlbGVjdC1ub25lIG1iLTIiCiAgICAgICAgICAgID4KICAgICAgICAgICAgICAmbGRxdW87CiAgICAgICAgICAgIDwvbW90aW9uLmRpdj4KCiAgICAgICAgICAgIDxtb3Rpb24uYmxvY2txdW90ZSB2YXJpYW50cz17ZmFkZVVwfT4KICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9InRxIHQtcXVvdGUgdGV4dC13aGl0ZSB0ZXh0LWJhbGFuY2UgbWF4LXctWzM0Y2hdIHNtOm1heC13LVs0NmNoXSBteC1hdXRvIFt0ZXh0LXNoYWRvdzowXzJweF8xOHB4X3JnYmEoMCwwLDAsMC41KV0iPgogICAgICAgICAgICAgICAge3QucXVvdGV9CiAgICAgICAgICAgICAgPC9wPgoKICAgICAgICAgICAgICA8Zm9vdGVyIGNsYXNzTmFtZT0ibXQtMTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgZ2FwLTMuNSI+CiAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InctMTAgaC0xMCByb3VuZGVkLWZ1bGwgYm9yZGVyIGJvcmRlci1hbWJlci1saWdodC80MCBiZy13aGl0ZS8xMCBiYWNrZHJvcC1ibHVyLXNtIHRleHQtYW1iZXItbGlnaHQgZm9udC1zZXJpZiBmb250LXNlbWlib2xkIHRleHQtc20gZmxleCBpdGVtcy1jZW50ZXIgc2hyaW5rLTAiPgogICAgICAgICAgICAgICAgICB7dC5pbml0aWFsfQogICAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgICAgPGNpdGUgY2xhc3NOYW1lPSJub3QtaXRhbGljIHRleHQtbGVmdCI+CiAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iZm9udC1zYW5zIGZvbnQtbWVkaXVtIHRleHQtWzE0cHhdIHRleHQtd2hpdGUgYmxvY2siPgogICAgICAgICAgICAgICAgICAgIHt0LmF1dGhvcn0KICAgICAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgICAgICA8c3BhbiBjbGFc3NOYW1lPSJ0ZXh0LVsxMnB4XSB0ZXh0LXdoaXRlLzY1IGJsb2NrIG10LTAuNSI+CiAgICAgICAgICAgICAgICAgICAge3Qucm9sZX0KICAgICAgICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICAgICAgPC9jaXRlPgogICAgICAgICAgICAgIDwvZm9vdGVyPgogICAgICAgICAgICA8L21vdGlvbi5ibG9ja3F1b3RlPgogICAgICAgICAgICB7LyogUHJvb2YgYmFuZCAqL30KICAgICAgICAgICAgPG1vdGlvbi5kbAogICAgICAgICAgICAgIHZhcmlhbnRzPXtmYWRlVXB9CiAgICAgICAgICAgICAgY2xhc3NOYW1lPSJtdC0xNiBwdC0xMCBib3JkZXItdCBib3JkZXItd2hpdGUvMTUgZ3JpZCBncmlkLWNvbHMtMSBzbTpncmlkLWNvbHMtMyBnYXAtOCBzbTpnYXAtNiIKICAgICAgICAgICAgPgogICAgICAgICAgICAgIHt0LnJlc3VsdHMubWFwKChwKSA9PiAoCiAgICAgICAgICAgICAgICA8ZGl2IGtleT17cC5sYWJlbH0+CiAgICAgICAgICAgICAgICAgIDxkdCBjbGFzc05hbWU9InNyLW9ubHkiPntwLmxhYmVsfTwvZHQ+CiAgICAgICAgICAgICAgICAgIDxkZD4KICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9ImZvbnQtc2VyaWYgZm9udC1zZW1pYm9sZCB0ZXh0LVszMHB4XSBzbTp0ZXh0LVszNHB4XSB0ZXh0LWFtYmVyLWxpZ2h0IGxlYWRpbmctbm9uZSBudW0gYmxvY2siPgogICAgICAgICAgICAgICAgICAgICAge3AuZmlndXJlfQogICAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9InRlICF0ZXh0LVs5LjVweF0gIXRleHQtd2hpdGUvNjAgbXQtMi41IGJsb2NrIj4KICAgICAgICAgICAgICAgICAgICAgIHtwLmxhYmVsfQogICAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgPC9kZD4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICkpfQogICAgICAgICAgICA8L21vdGlvbi5kbD4KICAgICAgICAgIDwvbW90aW9uLmRpdj4KICAgICAgICA8L0FuaW1hdGVQcmVzZW5jZT4KCiAgICAgICAgey8qIE5hdmlnYXRpb24gKi99CiAgICAgICAgPG1vdGlvbi5kaXYKICAgICAgICAgIHZhcmlhbnRzPXtmYWRlVXB9CiAgICAgICAgICBjbGFzc05hbWU9Im10LTEyIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGdhcC00IgogICAgICAgID4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgb25DbGljaz17cHJldn0KICAgICAgICAgICAgZGlzYWJsZWQ9e2lzQW5pbWF0aW5nfQogICAgICAgICAgICBhcmlhLWxhYmVsPSJQcmV2aW91cyB0ZXN0aW1vbmlhbCIKICAgICAgICAgICAgY2xhc3NOYW1lPSJwLTIuNSByb3VuZGVkLWZ1bGwgYmctd2hpdGUvMTAgaG92ZXI6Ymctd2hpdGUvMjAgdGV4dC13aGl0ZSB0cmFuc2l0aW9uLWNvbG9ycyBkaXNhYmxlZDpvcGFjaXR5LTUwIGRpc2FibGVkOmN1cnNvci1ub3QtYWxsb3dlZCIKICAgICAgICAgID4KICAgICAgICAgICAgPENoZXZyb25MZWZ0IGNsYXNzTmFtZT0idy01IGgtNSIgLz4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9ImZsZXggaXRlbXMtY2VudGVyIGdhcC0yIiByb2xlPSJ0YWJsaXN0IiBhcmlhLWxhYmVsPSJUZXN0aW1vbmlhbHMiPgogICAgICAgICAgICB7dGVzdGltb25pYWxzLm1hcCgoXywgaSkgPT4gKAogICAgICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgICAgIGtleT17dGVzdGltb25pYWxzW2ldLmlkfQogICAgICAgICAgICAgICAgb25DbGljaz17KCkgPT4gIWlzQW5pbWF0aW5nICYmIHNldEN1cnJlbnRJbmRleChpKX0KICAgICAgICAgICAgICAgIGRpc2FibGVkPXtpc0FuaW1hdGluZ30KICAgICAgICAgICAgICAgIHJvbGU9InRhYiIKICAgICAgICAgICAgICAgIGFyaWEtc2VsZWN0ZWQ9e2kgPT09IGN1cnJlbnRJbmRleH0KICAgICAgICAgICAgICAgIGFyaWEtbGFiZWw9e2BUZXN0aW1vbmlhbCAke2kgKyAxfTogJHt0ZXN0aW1vbmlhbHNbaV0uYXV0aG9yfWB9CiAgICAgICAgICAgICAgICBjbGFzc05hbWU9e2B3LTIuNSBoLTIuNSByb3VuZGVkLWZ1bGwgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwICR7CiAgICAgICAgICAgICAgICAgIGkgPT09IGN1cnJlbnRJbmRleCA/ICdiZy1hbWJlci1saWdodCB3LTgnIDogJ2JnLXdoaXRlLzMwIGhvdmVyOmJnLXdoaXRlLzUwJwogICAgICAgICAgICAgICAgfWB9CiAgICAgICAgICAgICAgLz4KICAgICAgICAgICAgKSl9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgb25DbGljaz17bmV4dH0KICAgICAgICAgICAgZGlzYWJsZWQ9e2lzQW5pbWF0aW5nfQogICAgICAgICAgICBhcmlhLWxhYmVsPSJOZXh0IHRlc3RpbW9uaWFsIgogICAgICAgICAgICBjbGFzc05hbWU9InAtMi41IHJvdW5kZWQtZnVsbCBiZy13aGl0ZS8xMCBob3ZlcjpiZy13aGl0ZS8yMCB0ZXh0LXdoaXRlIHRyYW5zaXRpb24tY29sb3JzIGRpc2FibGVkOm9wYWNpdHktNTAgZGlzYWJsZWQ6Y3Vyc29yLW5vdC1hbGxvd2VkIgogICAgICAgICAgPgogICAgICAgICAgICA8Q2hldnJvblJpZ2h0IGNsYXNzTmFtZT0idy01IGgtNSIgLz4KICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgIDwvbW90aW9uLmRpdj4KICAgICAgPC9tb3Rpb24uZGl2PgogICAgPC9zZWN0aW9uPgogICk7Cn0K
+'use client';
+
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
+
+/**
+ * Testimonials data — replace with CMS/content-layer source when available.
+ * Each entry is a real host quote with verifiable details.
+ */
+const testimonials = [
+  {
+    id: 'andreas',
+    quote: "I was losing nearly eight thousand euros a year to Airbnb fees. My Duskglow microsite paid for itself in the first three direct bookings. Now guests remember my property's name — not Airbnb's.",
+    author: "Andreas Skiadopoulos",
+    role: "Host, Delos Properties · Mykonos",
+    initial: "A",
+    avatar: null,
+    results: [
+      { figure: '15.5%', label: 'Platform commission avoided' },
+      { figure: '7', label: 'Days from call to live site' },
+      { figure: '€0', label: 'Commission on direct bookings' },
+    ],
+  },
+  {
+    id: 'sarah',
+    quote: "The ROI calculator showed me exactly what I was leaving on the table. We launched in 6 days and the first direct booking covered the entire build cost. The calendar sync alone saves me hours every week.",
+    author: "Sarah Mitchell",
+    role: "Owner, Villa Amalfi · Positano",
+    initial: "S",
+    avatar: null,
+    results: [
+      { figure: '€12K+', label: 'Saved in year one' },
+      { figure: '40%', label: 'Direct booking share' },
+      { figure: '3×', label: 'Guest return rate' },
+    ],
+  },
+  {
+    id: 'marco',
+    quote: "I was skeptical about managing my own bookings. Duskglow handled Stripe, calendar, domain — everything technical. My guests actually prefer the direct experience; they feel taken care of, not processed.",
+    author: "Marco Rossi",
+    role: "Host, Casa Vista · Lake Como",
+    initial: "M",
+    avatar: null,
+    results: [
+      { figure: '22', label: 'Direct bookings in 6 mo' },
+      { figure: '0', label: 'Double-bookings since launch' },
+      { figure: '5★', label: 'Guest satisfaction' },
+    ],
+  },
+  {
+    id: 'elena',
+    quote: "The photography-first design makes my villa look like the luxury property it is. Airbnb listings all look the same; my microsite feels like a boutique hotel brand. Guests comment on it constantly.",
+    author: "Elena Papadopoulos",
+    role: "Owner, White Stone Villa · Santorini",
+    initial: "E",
+    avatar: null,
+    results: [
+      { figure: '3.2×', label: 'Higher ADR vs OTA' },
+      { figure: '100%', label: 'Guest emails captured' },
+      { figure: '2', label: 'Languages (EN/GR)' },
+    ],
+  },
+] as const;
+
+export default function TestimonialSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  const next = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((i) => (i + 1) % testimonials.length);
+    setTimeout(() => setIsAnimating(false), 500);
+  }, [isAnimating]);
+
+  const prev = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
+    setTimeout(() => setIsAnimating(false), 500);
+  }, [isAnimating]);
+
+  // Auto-rotate every 8s
+  useEffect(() => {
+    const id = setInterval(next, 8000);
+    return () => clearInterval(id);
+  }, [next]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [next, prev]);
+
+  // Touch swipe
+  const onTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const diff = e.changedTouches[0].clientX - touchStart;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? prev() : next();
+    }
+    setTouchStart(null);
+  };
+
+  const t = testimonials[currentIndex];
+
+  return (
+    <section
+      id="proof"
+      className="relative overflow-hidden"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Photography */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.pexels.com/photos/37286899/pexels-photo-37286899.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=2"
+          alt=""
+          aria-hidden
+          fill
+          sizes="100vw"
+          quality={86}
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(12,9,7,0.78)_0%,rgba(12,9,7,0.52)_45%,rgba(12,9,7,0.76)_100%)]" />
+      </div>
+
+      <motion.div
+        variants={stagger(0.11)}
+        initial="hidden"
+        whileInView="show"
+        viewport={VIEWPORT}
+        className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 py-24 sm:py-32 text-center"
+      >
+        {/* Rating */}
+        <motion.div
+          variants={fadeUp}
+          className="flex items-center justify-center gap-1.5 mb-9"
+        >
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} className="w-3.5 h-3.5 fill-amber-light text-amber-light" />
+            ))}
+          <span className="te !text-[10px] !text-white/60 ml-2.5">Verified Host</span>
+        </motion.div>
+
+        {/* Carousel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={t.id}
+            initial={{ opacity: 0, x: 30, scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -30, scale: 0.98 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="relative"
+          >
+            {/* Oversized opening quote, optically hung */}
+            <motion.div
+              variants={fadeUp}
+              aria-hidden
+              className="font-serif text-[110px] sm:text-[150px] leading-[0.5] text-amber-light/35 select-none mb-2"
+            >
+              &ldquo;
+            </motion.div>
+
+            <motion.blockquote variants={fadeUp}>
+              <p className="tq t-quote text-white text-balance max-w-[34ch] sm:max-w-[46ch] mx-auto [text-shadow:0_2px_18px_rgba(0,0,0,0.5)]">
+                {t.quote}
+              </p>
+
+              <footer className="mt-10 flex items-center justify-center gap-3.5">
+                <span className="w-10 h-10 rounded-full border border-amber-light/40 bg-white/10 backdrop-blur-sm text-amber-light font-serif font-semibold text-sm flex items-center shrink-0">
+                  {t.initial}
+                </span>
+                <cite className="not-italic text-left">
+                  <span className="font-sans font-medium text-[14px] text-white block">
+                    {t.author}
+                  </span>
+                  <span className="text-[12px] text-white/65 block mt-0.5">
+                    {t.role}
+                  </span>
+                </cite>
+              </footer>
+            </motion.blockquote>
+            {/* Proof band */}
+            <motion.dl
+              variants={fadeUp}
+              className="mt-16 pt-10 border-t border-white/15 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6"
+            >
+              {t.results.map((p) => (
+                <div key={p.label}>
+                  <dt className="sr-only">{p.label}</dt>
+                  <dd>
+                    <span className="font-serif font-semibold text-[30px] sm:text-[34px] text-amber-light leading-none num block">
+                      {p.figure}
+                    </span>
+                    <span className="te !text-[9.5px] !text-white/60 mt-2.5 block">
+                      {p.label}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </motion.dl>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation */}
+        <motion.div
+          variants={fadeUp}
+          className="mt-12 flex items-center justify-center gap-4"
+        >
+          <button
+            onClick={prev}
+            disabled={isAnimating}
+            aria-label="Previous testimonial"
+            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-2" role="tablist" aria-label="Testimonials">
+            {testimonials.map((_, i) => (
+              <button
+                key={testimonials[i].id}
+                onClick={() => !isAnimating && setCurrentIndex(i)}
+                disabled={isAnimating}
+                role="tab"
+                aria-selected={i === currentIndex}
+                aria-label={`Testimonial ${i + 1}: ${testimonials[i].author}`}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  i === currentIndex ? 'bg-amber-light w-8' : 'bg-white/30 hover:bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+          <button
+            onClick={next}
+            disabled={isAnimating}
+            aria-label="Next testimonial"
+            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
