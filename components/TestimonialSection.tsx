@@ -176,7 +176,7 @@ export default function TestimonialSection() {
               </p>
 
               <footer className="mt-10 flex items-center justify-center gap-3.5">
-                <span className="w-10 h-10 rounded-full border border-amber-light/40 bg-white/10 backdrop-blur-sm text-amber-light font-serif font-semibold text-sm flex items-center shrink-0">
+                <span className="w-10 h-10 rounded-full border border-amber-light/40 bg-white/10 backdrop-blur-sm text-amber-light font-serif font-semibold text-sm flex items-center justify-center shrink-0">
                   {t.initial}
                 </span>
                 <cite className="not-italic text-left">
