@@ -164,14 +164,13 @@ export default function TestimonialSection() {
           >
             {/* Oversized opening quote, optically hung */}
             <motion.div
-              variants={fadeUp}
               aria-hidden
               className="font-serif text-[110px] sm:text-[150px] leading-[0.5] text-amber-light/35 select-none mb-2"
             >
               &ldquo;
             </motion.div>
 
-            <motion.blockquote variants={fadeUp}>
+            <motion.blockquote>
               <p className="tq t-quote text-white text-balance max-w-[34ch] sm:max-w-[46ch] mx-auto [text-shadow:0_2px_18px_rgba(0,0,0,0.5)]">
                 {t.quote}
               </p>
@@ -192,7 +191,6 @@ export default function TestimonialSection() {
             </motion.blockquote>
             {/* Proof band */}
             <motion.dl
-              variants={fadeUp}
               className="mt-16 pt-10 border-t border-white/15 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6"
             >
               {t.results.map((p) => (
