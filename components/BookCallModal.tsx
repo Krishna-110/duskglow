@@ -18,9 +18,46 @@ import ModalShell from '@/components/ui/ModalShell';
 import { EASE_OUT } from '@/lib/motion';
 import booked from '@/public/booked.json';
 
-/** Slots we offer; booked.json lists the ones already taken, per date. */
-const ALL_SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+/**
+ * Availability is a fixed 14:00–02:00 window in UTC+5:30, stored here and in
+ * booked.json as the canonical slot key. It is never shown to the visitor:
+ * every slot is rendered in whichever timezone they select, so the window
+ * reads as ordinary local hours rather than someone else's night shift.
+ */
+const HOST_OFFSET_MIN = 330;
+const ALL_SLOTS = [
+  '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00',
+  '21:00', '22:00', '23:00', '00:00', '01:00', '02:00',
+];
 const takenOn = (date: string) => booked.find((b) => b.date === date)?.slots ?? [];
+
+/** Canonical slot -> the UTC instant it actually falls on. */
+const slotInstant = (date: string, hhmm: string) => {
+  const [y, mo, d] = date.split('-').map(Number);
+  const [h, mi] = hhmm.split(':').map(Number);
+  return Date.UTC(y, mo - 1, d, h, mi) - HOST_OFFSET_MIN * 60_000;
+};
+
+/**
+ * Renders a slot in the visitor's timezone. `dayShift` is non-zero when the
+ * slot lands on a different calendar day for them than the one they picked —
+ * a late slot here is the previous evening in the Americas, and without the
+ * marker they would book the wrong day.
+ */
+const localSlot = (date: string, hhmm: string, tz: string) => {
+  const inst = new Date(slotInstant(date, hhmm));
+  // Guard: Intl throws RangeError on an invalid Date, and callers may render
+  // before a date is chosen.
+  if (Number.isNaN(inst.getTime())) return { time: hhmm, dayShift: 0 };
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(inst);
+  const get = (t: string) => parts.find((x) => x.type === t)?.value ?? '';
+  const localDate = `${get('year')}-${get('month')}-${get('day')}`;
+  const dayShift = localDate < date ? -1 : localDate > date ? 1 : 0;
+  return { time: `${get('hour')}:${get('minute')}`, dayShift };
+};
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 /** Formatted off the ISO string, never `new Date()`, so SSR and client agree. */
@@ -61,6 +98,8 @@ export default function BookCallModal({
   useEffect(() => {
     const n = new Date();
     setToday(`${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`);
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz) setTimezone(tz);
   }, []);
 
   const freeSlots = ALL_SLOTS.filter((sl) => !takenOn(date).includes(sl));
@@ -314,14 +353,19 @@ export default function BookCallModal({
                     <legend className="label">
                       {date ? `Available times · ${prettyDate(date)}` : 'Available times'}
                     </legend>
-                    {date && freeSlots.length === 0 ? (
+                    {!date ? (
+                      <p className="tbsm !text-[12.5px]">
+                        Choose a date above to see the times available that day.
+                      </p>
+                    ) : freeSlots.length === 0 ? (
                       <p className="tbsm !text-[12.5px]">
                         Fully booked on {prettyDate(date)} — please choose another day.
                       </p>
                     ) : (
-                      <div className="grid grid-cols-3 gap-2.5">
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
                         {ALL_SLOTS.map((sl) => {
                           const taken = takenOn(date).includes(sl);
+                          const { time: shown, dayShift } = localSlot(date, sl, timezone);
                           return (
                             <button
                               key={sl}
@@ -329,7 +373,8 @@ export default function BookCallModal({
                               disabled={taken}
                               onClick={() => setTime(sl)}
                               aria-pressed={time === sl}
-                              className={`py-3 text-[12px] font-medium num tracking-wide border transition-all duration-300 ${
+                              aria-label={`${shown}${dayShift ? `, ${dayShift > 0 ? 'next day' : 'previous day'}` : ''}${taken ? ', unavailable' : ''}`}
+                              className={`relative py-3 text-[12px] font-medium num tracking-wide border transition-all duration-300 ${
                                 taken
                                   ? 'border-border-subtle text-ink-dim line-through cursor-not-allowed'
                                   : time === sl
@@ -337,11 +382,22 @@ export default function BookCallModal({
                                   : 'border-border text-ink-soft hover:border-amber-line hover:text-ink'
                               }`}
                             >
-                              {sl}
+                              {shown}
+                              {dayShift !== 0 && (
+                                <span aria-hidden className="absolute top-1 right-1.5 text-[8.5px] leading-none opacity-70">
+                                  {dayShift > 0 ? '+1' : '−1'}
+                                </span>
+                              )}
                             </button>
                           );
                         })}
                       </div>
+                    )}
+                    {date && freeSlots.length > 0 && (
+                      <p className="tbsm !text-[12px] mt-3">
+                        Times are shown in your timezone. A marked slot falls on the
+                        neighbouring day for you.
+                      </p>
                     )}
                   </fieldset>
 
@@ -355,8 +411,14 @@ export default function BookCallModal({
                       onChange={(e) => setTimezone(e.target.value)}
                       className="field"
                     >
-                      {['UTC', 'Europe/London', 'Europe/Athens', 'America/New_York', 'Asia/Dubai', 'Asia/Kolkata'].map((z) => (
-                        <option key={z} value={z}>{z.replace('_', ' ')}</option>
+                      {Array.from(
+                        new Set([
+                          timezone, 'UTC', 'Europe/London', 'Europe/Athens',
+                          'America/New_York', 'America/Los_Angeles', 'Asia/Dubai',
+                          'Asia/Singapore', 'Australia/Sydney',
+                        ]),
+                      ).map((z) => (
+                        <option key={z} value={z}>{z.replace(/_/g, ' ')}</option>
                       ))}
                     </select>
                   </div>
@@ -492,9 +554,9 @@ export default function BookCallModal({
               Thank you{name ? `, ${name.split(' ')[0]}` : ''}. We have your request for a{' '}
               <span className="text-amber font-medium">{plan}</span> discovery call on{' '}
               <span className="text-ink">
-                {prettyDate(date)} at {time}
+                {prettyDate(date)} at {localSlot(date, time, timezone).time}
               </span>{' '}
-              ({timezone}). We&rsquo;ll confirm to{' '}
+              ({timezone.replace(/_/g, ' ')}). We&rsquo;ll confirm to{' '}
               <span className="text-ink">{email}</span> and send the invitation once a
               host has accepted the slot.
             </p>
