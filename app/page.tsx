@@ -10,7 +10,6 @@ import ProcessTimeline from '@/components/ProcessTimeline';
 import TestimonialSection from '@/components/TestimonialSection';
 import PricingSection from '@/components/PricingSection';
 import FaqSection from '@/components/FaqSection';
-import CallBooker from '@/components/CallBooker';
 import Footer from '@/components/Footer';
 import BookCallModal from '@/components/BookCallModal';
 import VillaPreviewModal from '@/components/VillaPreviewModal';
@@ -58,10 +57,6 @@ export default function Home() {
         <PricingSection onSelectPlan={(plan) => handleOpenBookCall(plan)} />
 
         <FaqSection />
-
-        <div className="max-w-shell mx-auto px-6 sm:px-8 py-24 sm:py-32">
-          <CallBooker />
-        </div>
 
         <Footer onOpenBookCall={() => handleOpenBookCall()} />
       </main>
