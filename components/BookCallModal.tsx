@@ -12,6 +12,7 @@ import {
   Mail,
   User,
   MapPin,
+  Link2,
 } from 'lucide-react';
 import ModalShell from '@/components/ui/ModalShell';
 import { EASE_OUT } from '@/lib/motion';
@@ -45,6 +46,7 @@ export default function BookCallModal({
   const [direction, setDirection] = useState<1 | -1>(1);
   const [plan, setPlan] = useState<string>(selectedPlan);
   const [villaLocation, setVillaLocation] = useState('');
+  const [siteUrl, setSiteUrl] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [timezone, setTimezone] = useState('UTC');
@@ -88,6 +90,7 @@ export default function BookCallModal({
       setSubmitted(false);
       setDate('');
       setTime('');
+      setSiteUrl('');
     }, 260);
   };
 
@@ -231,6 +234,40 @@ export default function BookCallModal({
                         className="field field-icon"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="label" htmlFor="bc-url">
+                      Listing or website URL{' '}
+                      <span className="normal-case tracking-normal">(optional)</span>
+                    </label>
+                    <div className="relative">
+                      <Link2
+                        aria-hidden
+                        className="w-4 h-4 text-ink-dim absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                      />
+                      <input
+                        id="bc-url"
+                        type="url"
+                        inputMode="url"
+                        autoComplete="url"
+                        placeholder="airbnb.com/rooms/… or your own site"
+                        value={siteUrl}
+                        onChange={(e) => setSiteUrl(e.target.value)}
+                        /* type="url" rejects a bare domain, and nobody types the
+                           scheme. Add it on blur so the field validates instead
+                           of scolding them for pasting exactly what they copied. */
+                        onBlur={() => {
+                          const v = siteUrl.trim();
+                          if (v && !/^https?:\/\//i.test(v)) setSiteUrl(`https://${v}`);
+                        }}
+                        className="field field-icon"
+                      />
+                    </div>
+                    <p className="tbsm !text-[12px] mt-2.5">
+                      We audit it before the call and bring you the findings — what your
+                      listing is losing to the platform, and what a direct site would change.
+                    </p>
                   </div>
 
                   <div className="flex justify-end pt-2">
@@ -461,6 +498,13 @@ export default function BookCallModal({
               <span className="text-ink">{email}</span> and send the invitation once a
               host has accepted the slot.
             </p>
+
+            {siteUrl && (
+              <p className="tbsm !text-[12.5px] max-w-[42ch] mx-auto mt-4">
+                We&rsquo;ll audit <span className="text-ink break-all">{siteUrl}</span> beforehand
+                and bring the findings to the call.
+              </p>
+            )}
 
             <div className="mt-9">
               <button onClick={finish} className="btn-prim">
