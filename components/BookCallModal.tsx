@@ -15,6 +15,18 @@ import {
 } from 'lucide-react';
 import ModalShell from '@/components/ui/ModalShell';
 import { EASE_OUT } from '@/lib/motion';
+import booked from '@/public/booked.json';
+
+/** Slots we offer; booked.json lists the ones already taken, per date. */
+const ALL_SLOTS = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+const takenOn = (date: string) => booked.find((b) => b.date === date)?.slots ?? [];
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+/** Formatted off the ISO string, never `new Date()`, so SSR and client agree. */
+const prettyDate = (iso: string) => {
+  const [, m, d] = iso.split('-');
+  return `${MONTHS[Number(m) - 1]} ${Number(d)}`;
+};
 
 interface BookCallModalProps {
   isOpen: boolean;
@@ -22,7 +34,7 @@ interface BookCallModalProps {
   selectedPlan?: string;
 }
 
-const STEPS = ['Package', 'Revenue', 'Contact'] as const;
+const STEPS = ['Package', 'Schedule', 'Contact'] as const;
 
 export default function BookCallModal({
   isOpen,
@@ -33,11 +45,23 @@ export default function BookCallModal({
   const [direction, setDirection] = useState<1 | -1>(1);
   const [plan, setPlan] = useState<string>(selectedPlan);
   const [villaLocation, setVillaLocation] = useState('');
-  const [monthlyRevenue, setMonthlyRevenue] = useState('€5,000 - €10,000');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [timezone, setTimezone] = useState('UTC');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  /* `new Date()` during render would disagree between server and client and
+     trip hydration, so today is filled in after mount. */
+  const [today, setToday] = useState('');
+  useEffect(() => {
+    const n = new Date();
+    setToday(`${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`);
+  }, []);
+
+  const freeSlots = ALL_SLOTS.filter((sl) => !takenOn(date).includes(sl));
 
   // `useState(selectedPlan)` only seeds the first render, so a later
   // "Choose Premium" click would still open on the previous plan.
@@ -62,6 +86,8 @@ export default function BookCallModal({
       setStep(1);
       setDirection(1);
       setSubmitted(false);
+      setDate('');
+      setTime('');
     }, 260);
   };
 
@@ -188,7 +214,8 @@ export default function BookCallModal({
 
                   <div>
                     <label className="label" htmlFor="bc-location">
-                      Villa / property location
+                      Villa / property location{' '}
+                      <span className="normal-case tracking-normal">(optional)</span>
                     </label>
                     <div className="relative">
                       <MapPin
@@ -227,23 +254,74 @@ export default function BookCallModal({
                   className="space-y-7"
                 >
                   <div>
-                    <label className="label" htmlFor="bc-revenue">
-                      Estimated monthly Airbnb revenue
+                    <label className="label" htmlFor="bc-date">
+                      Pick a date
+                    </label>
+                    <input
+                      id="bc-date"
+                      type="date"
+                      value={date}
+                      min={today || undefined}
+                      /* Changing the date can invalidate the chosen slot, so
+                         clear it rather than carry a time that is now taken. */
+                      onChange={(e) => {
+                        const d = e.target.value;
+                        setDate(d);
+                        if (takenOn(d).includes(time)) setTime('');
+                      }}
+                      className="field"
+                    />
+                  </div>
+
+                  <fieldset disabled={!date} className="disabled:opacity-45 transition-opacity">
+                    <legend className="label">
+                      {date ? `Available times · ${prettyDate(date)}` : 'Available times'}
+                    </legend>
+                    {date && freeSlots.length === 0 ? (
+                      <p className="tbsm !text-[12.5px]">
+                        Fully booked on {prettyDate(date)} — please choose another day.
+                      </p>
+                    ) : (
+                      <div className="grid grid-cols-3 gap-2.5">
+                        {ALL_SLOTS.map((sl) => {
+                          const taken = takenOn(date).includes(sl);
+                          return (
+                            <button
+                              key={sl}
+                              type="button"
+                              disabled={taken}
+                              onClick={() => setTime(sl)}
+                              aria-pressed={time === sl}
+                              className={`py-3 text-[12px] font-medium num tracking-wide border transition-all duration-300 ${
+                                taken
+                                  ? 'border-border-subtle text-ink-dim line-through cursor-not-allowed'
+                                  : time === sl
+                                  ? 'border-amber-brand bg-amber-soft text-amber'
+                                  : 'border-border text-ink-soft hover:border-amber-line hover:text-ink'
+                              }`}
+                            >
+                              {sl}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </fieldset>
+
+                  <div>
+                    <label className="label" htmlFor="bc-tz">
+                      Your timezone
                     </label>
                     <select
-                      id="bc-revenue"
-                      value={monthlyRevenue}
-                      onChange={(e) => setMonthlyRevenue(e.target.value)}
+                      id="bc-tz"
+                      value={timezone}
+                      onChange={(e) => setTimezone(e.target.value)}
                       className="field"
                     >
-                      <option value="Under €5,000">Under €5,000 / month</option>
-                      <option value="€5,000 - €10,000">€5,000 – €10,000 / month</option>
-                      <option value="€10,000 - €20,000">€10,000 – €20,000 / month</option>
-                      <option value="Over €20,000">Over €20,000 / month</option>
+                      {['UTC', 'Europe/London', 'Europe/Athens', 'America/New_York', 'Asia/Dubai', 'Asia/Kolkata'].map((z) => (
+                        <option key={z} value={z}>{z.replace('_', ' ')}</option>
+                      ))}
                     </select>
-                    <p className="tbsm !text-[12px] mt-3">
-                      Used only to size the savings estimate we bring to the call.
-                    </p>
                   </div>
 
                   <div className="flex justify-between pt-2">
@@ -251,7 +329,11 @@ export default function BookCallModal({
                       <ArrowLeft className="w-3.5 h-3.5" />
                       <span>Back</span>
                     </button>
-                    <button onClick={() => go(3)} className="btn-prim">
+                    <button
+                      onClick={() => go(3)}
+                      disabled={!date || !time}
+                      className="btn-prim disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
                       <span>Contact Info</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
@@ -367,13 +449,17 @@ export default function BookCallModal({
               <Check className="w-7 h-7" strokeWidth={1.75} />
             </motion.span>
 
-            <h3 className="thb text-[25px] text-ink mb-4">Request confirmed</h3>
+            <h3 className="thb text-[25px] text-ink mb-4">Request received</h3>
 
             <p className="tb !text-[14px] max-w-[42ch] mx-auto">
-              Thank you{name ? `, ${name.split(' ')[0]}` : ''}. We&rsquo;ve reserved your
-              discovery call for the <span className="text-amber font-medium">{plan}</span>{' '}
-              package. A calendar invitation is on its way to{' '}
-              <span className="text-ink">{email}</span>.
+              Thank you{name ? `, ${name.split(' ')[0]}` : ''}. We have your request for a{' '}
+              <span className="text-amber font-medium">{plan}</span> discovery call on{' '}
+              <span className="text-ink">
+                {prettyDate(date)} at {time}
+              </span>{' '}
+              ({timezone}). We&rsquo;ll confirm to{' '}
+              <span className="text-ink">{email}</span> and send the invitation once a
+              host has accepted the slot.
             </p>
 
             <div className="mt-9">
