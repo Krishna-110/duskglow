@@ -74,6 +74,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${playfair.variable} ${outfit.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Framer applies each variant's `hidden` state during SSR, so ~85
+            elements ship with inline `opacity:0`. With JS blocked or still
+            loading they would never be revealed and the page reads blank.
+            Scoped to the inline style Framer emits, so it cannot affect
+            anything authored deliberately. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className="bg-canvas text-ink font-sans antialiased min-h-screen">
         <ThemeProvider>{children}</ThemeProvider>
       </body>

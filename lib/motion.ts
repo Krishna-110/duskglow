@@ -18,6 +18,22 @@ export const springSoft: Transition = {
 };
 
 /** Small vertical rise. Distance stays short; the easing does the work. */
+/**
+ * For an element that is the LCP candidate. Identical in feel to `fadeUp`
+ * but never drops opacity, because Framer applies `hidden` during SSR and a
+ * headline shipped at `opacity:0` cannot be painted until React hydrates and
+ * the animation runs. On this site that cost 1,834ms of a 1,876ms LCP while
+ * the network had finished in 76ms.
+ */
+export const riseIn: Variants = {
+  hidden: { opacity: 1, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: EASE_OUT },
+  },
+};
+
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 22 },
   show: {
