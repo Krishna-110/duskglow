@@ -95,6 +95,8 @@ export default function BookCallModal({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState('');
 
   /* `new Date()` during render would disagree between server and client and
      trip hydration, so today is filled in after mount. */
@@ -119,9 +121,34 @@ export default function BookCallModal({
     setStep(next);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (sending) return;
+    setSending(true);
+    setSendError('');
+    try {
+      const res = await fetch('/api/book-call', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name, email, phone, plan,
+          location: villaLocation,
+          siteUrl, date, time, timezone,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      /* Only claim success once the request actually left. Showing the
+         confirmation regardless is how a booking gets lost silently. */
+      if (!res.ok) {
+        setSendError(data?.error || 'We could not send your request. Please try again.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setSendError('Network error — please check your connection and try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const finish = () => {
@@ -131,6 +158,8 @@ export default function BookCallModal({
       setStep(1);
       setDirection(1);
       setSubmitted(false);
+      setSendError('');
+      setSending(false);
       setDate('');
       setTime('');
       setSiteUrl('');
@@ -521,14 +550,27 @@ export default function BookCallModal({
                     </div>
                   </div>
 
+                  {sendError && (
+                    <p
+                      role="alert"
+                      className="text-[13px] text-red-700 dark:text-red-300 bg-red-500/10 border border-red-500/30 px-4 py-3"
+                    >
+                      {sendError}
+                    </p>
+                  )}
+
                   <div className="flex justify-between pt-3">
                     <button type="button" onClick={() => go(2)} className="btn-outline">
                       <ArrowLeft className="w-3.5 h-3.5" />
                       <span>Back</span>
                     </button>
-                    <button type="submit" className="btn-prim">
-                      <span>Confirm Booking</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                    <button
+                      type="submit"
+                      disabled={sending}
+                      className="btn-prim disabled:opacity-60 disabled:cursor-wait"
+                    >
+                      <span>{sending ? 'Sending…' : 'Confirm Booking'}</span>
+                      {!sending && <ArrowRight className="w-3.5 h-3.5" />}
                     </button>
                   </div>
                 </motion.form>
