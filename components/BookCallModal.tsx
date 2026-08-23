@@ -86,7 +86,11 @@ export default function BookCallModal({
   const [siteUrl, setSiteUrl] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  /* Defaults to UTC deliberately rather than the visitor's own zone: an
+     unambiguous reference beats a guess, and they can switch below. The
+     detected zone is still offered in the list so it is one click away. */
   const [timezone, setTimezone] = useState('UTC');
+  const [detectedTz, setDetectedTz] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -99,7 +103,7 @@ export default function BookCallModal({
     const n = new Date();
     setToday(`${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`);
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (tz) setTimezone(tz);
+    if (tz) setDetectedTz(tz);
   }, []);
 
   const freeSlots = ALL_SLOTS.filter((sl) => !takenOn(date).includes(sl));
@@ -395,8 +399,8 @@ export default function BookCallModal({
                     )}
                     {date && freeSlots.length > 0 && (
                       <p className="tbsm !text-[12px] mt-3">
-                        Times are shown in your timezone. A marked slot falls on the
-                        neighbouring day for you.
+                        Times are shown in the timezone selected below. A marked slot
+                        falls on the neighbouring day there.
                       </p>
                     )}
                   </fieldset>
@@ -413,11 +417,11 @@ export default function BookCallModal({
                     >
                       {Array.from(
                         new Set([
-                          timezone, 'UTC', 'Europe/London', 'Europe/Athens',
+                          'UTC', timezone, detectedTz, 'Europe/London', 'Europe/Athens',
                           'America/New_York', 'America/Los_Angeles', 'Asia/Dubai',
-                          'Asia/Singapore', 'Australia/Sydney',
+                          'Asia/Singapore', 'Asia/Kolkata', 'Australia/Sydney',
                         ]),
-                      ).map((z) => (
+                      ).filter(Boolean).map((z) => (
                         <option key={z} value={z}>{z.replace(/_/g, ' ')}</option>
                       ))}
                     </select>
