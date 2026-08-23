@@ -33,7 +33,9 @@ export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
           alt="Mediterranean villa terrace at golden hour"
           fill
           priority
-          sizes="100vw"
+          /* Ken Burns renders this at up to 104.5vw, so asking for 100vw
+             fetched too few pixels and the hero resolved soft. */
+          sizes="105vw"
           quality={90}
           className="object-cover object-center"
         />

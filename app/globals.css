@@ -446,9 +446,14 @@ body::after {
   transform: scale(1.055);
 }
 
+/* The end scale is deliberately modest. Whatever it is, the browser still
+   fetches for the layout box, so the image is upscaled by exactly this factor
+   for most of the animation. At 1.09 the hero resolved 8% short of its own
+   pixels; 1.045 keeps the drift while staying inside a variant we can afford
+   to fetch. `sizes` below is set to match. */
 @keyframes kenburns {
   from { transform: scale(1) translate3d(0, 0, 0); }
-  to   { transform: scale(1.09) translate3d(0, -1.2%, 0); }
+  to   { transform: scale(1.045) translate3d(0, -1.2%, 0); }
 }
 .kenburns img {
   animation: kenburns 26s var(--e-soft) forwards;
