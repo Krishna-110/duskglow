@@ -146,7 +146,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
                   aria-hidden
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  quality={80}
+                  quality={90}
                   className="object-cover"
                 />
                 <span

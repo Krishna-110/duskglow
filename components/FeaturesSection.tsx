@@ -103,6 +103,9 @@ export default function FeaturesSection() {
                     alt={feat.alt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 55vw"
+                    /* Without this next/image falls back to 75, which left the
+                       six product images at the lowest quality on the site. */
+                    quality={90}
                     className="object-cover"
                   />
                   {/* Deepens the plate toward the copy so the seam reads as one spread */}

@@ -18,7 +18,7 @@
 
   --ink:           #17120e;
   --ink-soft:      #4d4438;   /* 7.7:1  on canvas */
-  --ink-dim:       #6f6557;   /* 4.6:1  on canvas */
+  --ink-dim:       #6a6052;   /* 4.97:1 on canvas · 4.61:1 on canvas-alt */
 
   --amber:         #b87a4e;
   --amber-ink:     #8f5731;   /* 4.7:1  on canvas · 5.9:1 vs white */
@@ -446,9 +446,14 @@ body::after {
   transform: scale(1.055);
 }
 
+/* The end scale is deliberately modest. Whatever it is, the browser still
+   fetches for the layout box, so the image is upscaled by exactly this factor
+   for most of the animation. At 1.09 the hero resolved 8% short of its own
+   pixels; 1.045 keeps the drift while staying inside a variant we can afford
+   to fetch. `sizes` below is set to match. */
 @keyframes kenburns {
   from { transform: scale(1) translate3d(0, 0, 0); }
-  to   { transform: scale(1.09) translate3d(0, -1.2%, 0); }
+  to   { transform: scale(1.045) translate3d(0, -1.2%, 0); }
 }
 .kenburns img {
   animation: kenburns 26s var(--e-soft) forwards;

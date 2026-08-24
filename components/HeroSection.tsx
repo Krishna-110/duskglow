@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Calculator, MonitorPlay } from 'lucide-react';
-import { EASE_OUT, fadeUp, stagger } from '@/lib/motion';
+import { EASE_OUT, fadeUp, riseIn, stagger } from '@/lib/motion';
 
 interface HeroSectionProps {
   onOpenBookCall: () => void;
@@ -33,7 +33,9 @@ export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
           alt="Mediterranean villa terrace at golden hour"
           fill
           priority
-          sizes="100vw"
+          /* Ken Burns renders this at up to 104.5vw, so asking for 100vw
+             fetched too few pixels and the hero resolved soft. */
+          sizes="105vw"
           quality={90}
           className="object-cover object-center"
         />
@@ -54,7 +56,7 @@ export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
           </motion.div>
 
           <motion.h1
-            variants={fadeUp}
+            variants={riseIn}
             className="td t-display text-ink mb-5 sm:mb-6 text-balance"
           >
             Own <span className="text-amber italic">the moment.</span>

@@ -275,7 +275,9 @@ function ThemeToggle({
   return (
     <button
       onClick={onToggle}
-      aria-label={`Switch to ${isDark ? 'day' : 'dusk'} theme`}
+      /* The visible word must appear in the accessible name, or voice control
+         ("click DAY") cannot reach this button. WCAG 2.5.3 Label in Name. */
+      aria-label={`${isDark ? 'Dusk' : 'Day'} theme active — switch to ${isDark ? 'day' : 'dusk'}`}
       className={`group relative inline-flex items-center justify-center gap-2 border rounded-full transition-colors duration-500 bg-transparent ${
         solid ? 'border-border hover:border-amber-line' : 'border-white/30 hover:border-white/60'
       } ${compact ? 'w-11 h-11' : 'py-2 pl-3 pr-2'}`}

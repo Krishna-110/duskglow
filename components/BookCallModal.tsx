@@ -12,9 +12,59 @@ import {
   Mail,
   User,
   MapPin,
+  Link2,
 } from 'lucide-react';
 import ModalShell from '@/components/ui/ModalShell';
 import { EASE_OUT } from '@/lib/motion';
+import booked from '@/public/booked.json';
+
+/**
+ * Availability is a fixed 14:00–02:00 window in UTC+5:30, stored here and in
+ * booked.json as the canonical slot key. It is never shown to the visitor:
+ * every slot is rendered in whichever timezone they select, so the window
+ * reads as ordinary local hours rather than someone else's night shift.
+ */
+const HOST_OFFSET_MIN = 330;
+const ALL_SLOTS = [
+  '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00',
+  '21:00', '22:00', '23:00', '00:00', '01:00', '02:00',
+];
+const takenOn = (date: string) => booked.find((b) => b.date === date)?.slots ?? [];
+
+/** Canonical slot -> the UTC instant it actually falls on. */
+const slotInstant = (date: string, hhmm: string) => {
+  const [y, mo, d] = date.split('-').map(Number);
+  const [h, mi] = hhmm.split(':').map(Number);
+  return Date.UTC(y, mo - 1, d, h, mi) - HOST_OFFSET_MIN * 60_000;
+};
+
+/**
+ * Renders a slot in the visitor's timezone. `dayShift` is non-zero when the
+ * slot lands on a different calendar day for them than the one they picked —
+ * a late slot here is the previous evening in the Americas, and without the
+ * marker they would book the wrong day.
+ */
+const localSlot = (date: string, hhmm: string, tz: string) => {
+  const inst = new Date(slotInstant(date, hhmm));
+  // Guard: Intl throws RangeError on an invalid Date, and callers may render
+  // before a date is chosen.
+  if (Number.isNaN(inst.getTime())) return { time: hhmm, dayShift: 0 };
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(inst);
+  const get = (t: string) => parts.find((x) => x.type === t)?.value ?? '';
+  const localDate = `${get('year')}-${get('month')}-${get('day')}`;
+  const dayShift = localDate < date ? -1 : localDate > date ? 1 : 0;
+  return { time: `${get('hour')}:${get('minute')}`, dayShift };
+};
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+/** Formatted off the ISO string, never `new Date()`, so SSR and client agree. */
+const prettyDate = (iso: string) => {
+  const [, m, d] = iso.split('-');
+  return `${MONTHS[Number(m) - 1]} ${Number(d)}`;
+};
 
 interface BookCallModalProps {
   isOpen: boolean;
@@ -22,7 +72,7 @@ interface BookCallModalProps {
   selectedPlan?: string;
 }
 
-const STEPS = ['Package', 'Revenue', 'Contact'] as const;
+const STEPS = ['Package', 'Schedule', 'Contact'] as const;
 
 export default function BookCallModal({
   isOpen,
@@ -33,11 +83,32 @@ export default function BookCallModal({
   const [direction, setDirection] = useState<1 | -1>(1);
   const [plan, setPlan] = useState<string>(selectedPlan);
   const [villaLocation, setVillaLocation] = useState('');
-  const [monthlyRevenue, setMonthlyRevenue] = useState('€5,000 - €10,000');
+  const [siteUrl, setSiteUrl] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  /* Defaults to UTC deliberately rather than the visitor's own zone: an
+     unambiguous reference beats a guess, and they can switch below. The
+     detected zone is still offered in the list so it is one click away. */
+  const [timezone, setTimezone] = useState('UTC');
+  const [detectedTz, setDetectedTz] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState('');
+
+  /* `new Date()` during render would disagree between server and client and
+     trip hydration, so today is filled in after mount. */
+  const [today, setToday] = useState('');
+  useEffect(() => {
+    const n = new Date();
+    setToday(`${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`);
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz) setDetectedTz(tz);
+  }, []);
+
+  const freeSlots = ALL_SLOTS.filter((sl) => !takenOn(date).includes(sl));
 
   // `useState(selectedPlan)` only seeds the first render, so a later
   // "Choose Premium" click would still open on the previous plan.
@@ -50,9 +121,34 @@ export default function BookCallModal({
     setStep(next);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (sending) return;
+    setSending(true);
+    setSendError('');
+    try {
+      const res = await fetch('/api/book-call', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name, email, phone, plan,
+          location: villaLocation,
+          siteUrl, date, time, timezone,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      /* Only claim success once the request actually left. Showing the
+         confirmation regardless is how a booking gets lost silently. */
+      if (!res.ok) {
+        setSendError(data?.error || 'We could not send your request. Please try again.');
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setSendError('Network error — please check your connection and try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const finish = () => {
@@ -62,6 +158,11 @@ export default function BookCallModal({
       setStep(1);
       setDirection(1);
       setSubmitted(false);
+      setSendError('');
+      setSending(false);
+      setDate('');
+      setTime('');
+      setSiteUrl('');
     }, 260);
   };
 
@@ -188,7 +289,8 @@ export default function BookCallModal({
 
                   <div>
                     <label className="label" htmlFor="bc-location">
-                      Villa / property location
+                      Villa / property location{' '}
+                      <span className="normal-case tracking-normal">(optional)</span>
                     </label>
                     <div className="relative">
                       <MapPin
@@ -204,6 +306,40 @@ export default function BookCallModal({
                         className="field field-icon"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="label" htmlFor="bc-url">
+                      Listing or website URL{' '}
+                      <span className="normal-case tracking-normal">(optional)</span>
+                    </label>
+                    <div className="relative">
+                      <Link2
+                        aria-hidden
+                        className="w-4 h-4 text-ink-dim absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                      />
+                      <input
+                        id="bc-url"
+                        type="url"
+                        inputMode="url"
+                        autoComplete="url"
+                        placeholder="airbnb.com/rooms/… or your own site"
+                        value={siteUrl}
+                        onChange={(e) => setSiteUrl(e.target.value)}
+                        /* type="url" rejects a bare domain, and nobody types the
+                           scheme. Add it on blur so the field validates instead
+                           of scolding them for pasting exactly what they copied. */
+                        onBlur={() => {
+                          const v = siteUrl.trim();
+                          if (v && !/^https?:\/\//i.test(v)) setSiteUrl(`https://${v}`);
+                        }}
+                        className="field field-icon"
+                      />
+                    </div>
+                    <p className="tbsm !text-[12px] mt-2.5">
+                      We audit it before the call and bring you the findings — what your
+                      listing is losing to the platform, and what a direct site would change.
+                    </p>
                   </div>
 
                   <div className="flex justify-end pt-2">
@@ -227,23 +363,97 @@ export default function BookCallModal({
                   className="space-y-7"
                 >
                   <div>
-                    <label className="label" htmlFor="bc-revenue">
-                      Estimated monthly Airbnb revenue
+                    <label className="label" htmlFor="bc-date">
+                      Pick a date
+                    </label>
+                    <input
+                      id="bc-date"
+                      type="date"
+                      value={date}
+                      min={today || undefined}
+                      /* Changing the date can invalidate the chosen slot, so
+                         clear it rather than carry a time that is now taken. */
+                      onChange={(e) => {
+                        const d = e.target.value;
+                        setDate(d);
+                        if (takenOn(d).includes(time)) setTime('');
+                      }}
+                      className="field"
+                    />
+                  </div>
+
+                  <fieldset disabled={!date} className="disabled:opacity-45 transition-opacity">
+                    <legend className="label">
+                      {date ? `Available times · ${prettyDate(date)}` : 'Available times'}
+                    </legend>
+                    {!date ? (
+                      <p className="tbsm !text-[12.5px]">
+                        Choose a date above to see the times available that day.
+                      </p>
+                    ) : freeSlots.length === 0 ? (
+                      <p className="tbsm !text-[12.5px]">
+                        Fully booked on {prettyDate(date)} — please choose another day.
+                      </p>
+                    ) : (
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                        {ALL_SLOTS.map((sl) => {
+                          const taken = takenOn(date).includes(sl);
+                          const { time: shown, dayShift } = localSlot(date, sl, timezone);
+                          return (
+                            <button
+                              key={sl}
+                              type="button"
+                              disabled={taken}
+                              onClick={() => setTime(sl)}
+                              aria-pressed={time === sl}
+                              aria-label={`${shown}${dayShift ? `, ${dayShift > 0 ? 'next day' : 'previous day'}` : ''}${taken ? ', unavailable' : ''}`}
+                              className={`relative py-3 text-[12px] font-medium num tracking-wide border transition-all duration-300 ${
+                                taken
+                                  ? 'border-border-subtle text-ink-dim line-through cursor-not-allowed'
+                                  : time === sl
+                                  ? 'border-amber-brand bg-amber-soft text-amber'
+                                  : 'border-border text-ink-soft hover:border-amber-line hover:text-ink'
+                              }`}
+                            >
+                              {shown}
+                              {dayShift !== 0 && (
+                                <span aria-hidden className="absolute top-1 right-1.5 text-[8.5px] leading-none opacity-70">
+                                  {dayShift > 0 ? '+1' : '−1'}
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {date && freeSlots.length > 0 && (
+                      <p className="tbsm !text-[12px] mt-3">
+                        Times are shown in the timezone selected below. A marked slot
+                        falls on the neighbouring day there.
+                      </p>
+                    )}
+                  </fieldset>
+
+                  <div>
+                    <label className="label" htmlFor="bc-tz">
+                      Your timezone
                     </label>
                     <select
-                      id="bc-revenue"
-                      value={monthlyRevenue}
-                      onChange={(e) => setMonthlyRevenue(e.target.value)}
+                      id="bc-tz"
+                      value={timezone}
+                      onChange={(e) => setTimezone(e.target.value)}
                       className="field"
                     >
-                      <option value="Under €5,000">Under €5,000 / month</option>
-                      <option value="€5,000 - €10,000">€5,000 – €10,000 / month</option>
-                      <option value="€10,000 - €20,000">€10,000 – €20,000 / month</option>
-                      <option value="Over €20,000">Over €20,000 / month</option>
+                      {Array.from(
+                        new Set([
+                          'UTC', timezone, detectedTz, 'Europe/London', 'Europe/Athens',
+                          'America/New_York', 'America/Los_Angeles', 'Asia/Dubai',
+                          'Asia/Singapore', 'Asia/Kolkata', 'Australia/Sydney',
+                        ]),
+                      ).filter(Boolean).map((z) => (
+                        <option key={z} value={z}>{z.replace(/_/g, ' ')}</option>
+                      ))}
                     </select>
-                    <p className="tbsm !text-[12px] mt-3">
-                      Used only to size the savings estimate we bring to the call.
-                    </p>
                   </div>
 
                   <div className="flex justify-between pt-2">
@@ -251,7 +461,11 @@ export default function BookCallModal({
                       <ArrowLeft className="w-3.5 h-3.5" />
                       <span>Back</span>
                     </button>
-                    <button onClick={() => go(3)} className="btn-prim">
+                    <button
+                      onClick={() => go(3)}
+                      disabled={!date || !time}
+                      className="btn-prim disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
                       <span>Contact Info</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
@@ -336,14 +550,27 @@ export default function BookCallModal({
                     </div>
                   </div>
 
+                  {sendError && (
+                    <p
+                      role="alert"
+                      className="text-[13px] text-red-700 dark:text-red-300 bg-red-500/10 border border-red-500/30 px-4 py-3"
+                    >
+                      {sendError}
+                    </p>
+                  )}
+
                   <div className="flex justify-between pt-3">
                     <button type="button" onClick={() => go(2)} className="btn-outline">
                       <ArrowLeft className="w-3.5 h-3.5" />
                       <span>Back</span>
                     </button>
-                    <button type="submit" className="btn-prim">
-                      <span>Confirm Booking</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                    <button
+                      type="submit"
+                      disabled={sending}
+                      className="btn-prim disabled:opacity-60 disabled:cursor-wait"
+                    >
+                      <span>{sending ? 'Sending…' : 'Confirm Booking'}</span>
+                      {!sending && <ArrowRight className="w-3.5 h-3.5" />}
                     </button>
                   </div>
                 </motion.form>
@@ -367,14 +594,25 @@ export default function BookCallModal({
               <Check className="w-7 h-7" strokeWidth={1.75} />
             </motion.span>
 
-            <h3 className="thb text-[25px] text-ink mb-4">Request confirmed</h3>
+            <h3 className="thb text-[25px] text-ink mb-4">Request received</h3>
 
             <p className="tb !text-[14px] max-w-[42ch] mx-auto">
-              Thank you{name ? `, ${name.split(' ')[0]}` : ''}. We&rsquo;ve reserved your
-              discovery call for the <span className="text-amber font-medium">{plan}</span>{' '}
-              package. A calendar invitation is on its way to{' '}
-              <span className="text-ink">{email}</span>.
+              Thank you{name ? `, ${name.split(' ')[0]}` : ''}. We have your request for a{' '}
+              <span className="text-amber font-medium">{plan}</span> discovery call on{' '}
+              <span className="text-ink">
+                {prettyDate(date)} at {localSlot(date, time, timezone).time}
+              </span>{' '}
+              ({timezone.replace(/_/g, ' ')}). We&rsquo;ll confirm to{' '}
+              <span className="text-ink">{email}</span> and send the invitation once a
+              host has accepted the slot.
             </p>
+
+            {siteUrl && (
+              <p className="tbsm !text-[12.5px] max-w-[42ch] mx-auto mt-4">
+                We&rsquo;ll audit <span className="text-ink break-all">{siteUrl}</span> beforehand
+                and bring the findings to the call.
+              </p>
+            )}
 
             <div className="mt-9">
               <button onClick={finish} className="btn-prim">
