@@ -3,7 +3,16 @@
 import { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, X, ArrowRight, ChevronDown } from 'lucide-react';
+import {
+  Check,
+  X,
+  ArrowRight,
+  ChevronDown,
+  PhoneCall,
+  Eye,
+  PenLine,
+  Sparkles,
+} from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
 
@@ -208,21 +217,25 @@ const TIERS: {
 const STEPS = [
   {
     k: '01',
+    Icon: PhoneCall,
     title: 'The call',
     body: 'Your property, your rates, your seasons. Half an hour, no pitch.',
   },
   {
     k: '02',
+    Icon: Eye,
     title: 'The preview',
     body: 'A live link to your finished site. Nothing invoiced, nothing owed.',
   },
   {
     k: '03',
+    Icon: PenLine,
     title: 'Your changes',
     body: 'We work through your notes. Photographs, wording, whatever isn’t you yet.',
   },
   {
     k: '04',
+    Icon: Sparkles,
     title: 'Live, and paid',
     body: 'Only once you’re happy. On your own domain, taking enquiries, calendar already reading your platforms.',
   },
@@ -250,7 +263,7 @@ function renderCell(cell: Cell) {
     return (
       <X
         aria-label="Not included"
-        className="w-4 h-4 text-ink/30 mx-auto"
+        className="w-4 h-4 text-ink-dim opacity-50 mx-auto"
         strokeWidth={2.5}
       />
     );
@@ -552,23 +565,30 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
               <motion.div
                 key={step.k}
                 variants={fadeUp}
-                className="relative bg-surface p-7 pt-6 overflow-hidden"
+                className="relative bg-surface p-7 group"
               >
-                {/* The payoff step earns full amber; the rest sit back. */}
-                <span
-                  aria-hidden
-                  className={`absolute top-4 right-5 font-serif font-semibold text-[64px] leading-none num select-none ${
-                    last ? 'text-amber/25' : 'text-ink/[0.06]'
-                  }`}
-                >
-                  {step.k}
-                </span>
-                <span
-                  aria-hidden
-                  className={`block w-6 h-px mb-5 ${last ? 'bg-amber-brand' : 'bg-border-strong'}`}
-                />
-                <h4 className="thb text-[19px] text-ink mb-2 relative">{step.title}</h4>
-                <p className="tbsm !text-[13px] !leading-[1.6] relative max-w-[30ch]">
+                <div className="flex items-center justify-between mb-5">
+                  {/* The payoff step fills; the first three stay outlined, so
+                      the eye lands on "Live, and paid" without reading. */}
+                  <span
+                    aria-hidden
+                    className={`grid place-items-center w-11 h-11 rounded-full transition-colors duration-500 ${
+                      last
+                        ? 'bg-amber text-white'
+                        : 'bg-amber-line text-amber border border-amber-line'
+                    }`}
+                  >
+                    <step.Icon className="w-[18px] h-[18px]" strokeWidth={1.75} />
+                  </span>
+                  <span
+                    aria-hidden
+                    className="te !text-[10px] !tracking-[0.24em] text-ink-dim num"
+                  >
+                    {step.k}
+                  </span>
+                </div>
+                <h4 className="thb text-[19px] text-ink mb-2">{step.title}</h4>
+                <p className="tbsm !text-[13px] !leading-[1.6] max-w-[30ch]">
                   {step.body}
                 </p>
               </motion.div>
