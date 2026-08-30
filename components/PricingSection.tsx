@@ -13,6 +13,7 @@ import {
   PenLine,
   Sparkles,
   Play,
+  ShieldCheck,
 } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
@@ -826,32 +827,61 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
           </div>
         </motion.div>
 
-        {/* ---------- Yours, in every tier ---------- */}
-        <div className="border border-border p-7 mt-6">
-          <p className="te !text-[9.5px] mb-4">Yours, in every tier</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
-            {INCLUDED.map((item) => (
-              <div key={item} className="flex items-start gap-2.5">
-                <Check
-                  aria-hidden
-                  className="w-3.5 h-3.5 text-amber shrink-0 mt-[3px]"
-                  strokeWidth={2.5}
-                />
-                <span className="tb !text-[13.5px]">{item}</span>
+        {/* ---------- The guarantee ---------- */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="relative bg-surface border border-border shadow-e1 p-7 sm:p-10 mt-6 overflow-hidden"
+        >
+          {/* Same amber hairline the ROI calculator wears — this is the other
+              claim on the page worth stopping for. */}
+          <span
+            aria-hidden
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-brand to-transparent"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_0.85fr] gap-8 lg:gap-14">
+            <div>
+              <span
+                aria-hidden
+                className="grid place-items-center w-14 h-14 rounded-full bg-amber-line border border-amber-line text-amber mb-6"
+              >
+                <ShieldCheck className="w-6 h-6" strokeWidth={1.5} />
+              </span>
+              <h3 className="thb text-[26px] sm:text-[32px] text-ink mb-4 text-balance">
+                You don’t pay until you like it.
+              </h3>
+              <p className="tb !text-[15px] mb-3">
+                We build the whole thing, you see it on a live link, and you
+                tell us what to change. Nothing is invoiced until you’re happy
+                with what’s there — and if you never are, walk away and owe
+                nothing.
+              </p>
+              <p className="tbsm !text-[12px]">
+                Revisions cover what we agreed on the call; new pages and new
+                features are quoted separately.
+              </p>
+            </div>
+
+            <div className="md:border-l md:border-border-subtle md:pl-8 lg:pl-12">
+              <p className="te !text-[9.5px] mb-5">Yours, in every tier</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-x-8 gap-y-3">
+                {INCLUDED.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <Check
+                      aria-hidden
+                      className="w-3.5 h-3.5 text-amber shrink-0 mt-[3px]"
+                      strokeWidth={2.5}
+                    />
+                    <span className="tb !text-[13.5px]">{item}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-          <p className="tbsm !text-[12px] mt-5 max-w-[76ch]">
-            <strong className="text-ink font-medium">
-              You don’t pay until you like it.
-            </strong>{' '}
-            We build the whole thing, you see it on a live link, and you tell us
-            what to change. Nothing is invoiced until you’re happy with what’s
-            there — and if you never are, walk away and owe nothing. Revisions
-            cover what we agreed on the call; new pages and new features are
-            quoted separately.
-          </p>
-        </div>
+        </motion.div>
 
         <p className="tbsm !text-[12px] mt-6 max-w-[76ch]">
           The {money(p.ember)} a month covers hosting, SSL, backups and security
