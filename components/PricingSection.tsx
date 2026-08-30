@@ -12,6 +12,7 @@ import {
   Eye,
   PenLine,
   Sparkles,
+  Play,
 } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
@@ -239,6 +240,13 @@ const STEPS = [
     title: 'Live, and paid',
     body: 'Only once you’re happy. On your own domain, taking enquiries, calendar already reading your platforms.',
   },
+];
+
+/** Reuses the tier banners — same host, already configured, no new fetches. */
+const CONTENT_SAMPLES = [
+  'https://images.pexels.com/photos/35069530/pexels-photo-35069530.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
+  'https://images.pexels.com/photos/37030525/pexels-photo-37030525.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
+  'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
 ];
 
 const INCLUDED = [
@@ -716,7 +724,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
           initial="hidden"
           whileInView="show"
           viewport={VIEWPORT}
-          className="grid grid-cols-1 md:grid-cols-[1.35fr_1fr] gap-8 bg-surface border border-border border-l-[3px] border-l-amber-brand shadow-e1 p-7 sm:p-8 mt-6"
+          className="grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-12 bg-surface border border-border border-l-[3px] border-l-amber-brand shadow-e1 p-7 sm:p-9 mt-6 items-center"
         >
           <div>
             <p className="te !text-[9.5px] mb-3">Add-on · Any tier</p>
@@ -734,9 +742,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
               If you like them, we’ll talk about the rest. If you don’t, keep
               them anyway.
             </p>
-          </div>
-          <div className="flex flex-col">
-            <ul className="list-none space-y-2.5 mb-6">
+            <ul className="list-none space-y-2.5 mt-7">
               {[
                 'Made from your own photographs, not stock',
                 'Sized, captioned and ready to post',
@@ -753,14 +759,65 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="flex flex-col">
+            {/* Three villa frames fanned out, the front one wearing a play
+                button — the offer is reels and carousels, so show a reel and
+                a carousel rather than describe them again. */}
+            <div
+              aria-hidden
+              className="relative w-full max-w-[230px] aspect-[4/5] mx-auto mb-7"
+            >
+              {CONTENT_SAMPLES.slice(1)
+                .reverse()
+                .map((src, i) => (
+                  <div
+                    key={src}
+                    className={`absolute inset-0 overflow-hidden border border-border shadow-e1 ${
+                      i === 0
+                        ? 'rotate-[7deg] translate-x-5 translate-y-1 opacity-45'
+                        : 'rotate-[3.5deg] translate-x-2.5 opacity-70'
+                    }`}
+                  >
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="230px"
+                      quality={70}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              <div className="absolute inset-0 overflow-hidden border border-border shadow-e3">
+                <Image
+                  src={CONTENT_SAMPLES[0]}
+                  alt=""
+                  fill
+                  sizes="230px"
+                  quality={85}
+                  className="object-cover"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-[rgba(14,10,7,0.5)] via-transparent to-transparent" />
+                <span className="absolute inset-0 grid place-items-center">
+                  <span className="grid place-items-center w-[52px] h-[52px] rounded-full bg-amber text-white shadow-e2">
+                    <Play className="w-[18px] h-[18px] ml-[3px]" fill="currentColor" strokeWidth={0} />
+                  </span>
+                </span>
+              </div>
+            </div>
+
             <button
               onClick={() => onSelectPlan('Two free reels')}
-              className="btn-outline w-full mt-auto"
+              className="btn-prim w-full"
             >
               <span>Get two free</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-            <p className="tbsm !text-[12px] mt-3">Two per property, one per host.</p>
+            <p className="tbsm !text-[12px] mt-3 text-center">
+              Two per property, one per host.
+            </p>
           </div>
         </motion.div>
 
