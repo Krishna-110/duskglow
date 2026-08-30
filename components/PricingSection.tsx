@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, X, ArrowRight } from 'lucide-react';
+import { Check, X, ArrowRight, ChevronDown } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
 
@@ -133,6 +133,45 @@ const LEDGER: { group: string; rows: Row[] }[] = [
   },
 ];
 
+/**
+ * What the cards actually show. The full ledger lives in the comparison
+ * table below them — three parallel 45-row lists made the section four
+ * screens tall and nobody read past the first one.
+ */
+const HIGHLIGHTS: Record<TierKey, { inherits: string | null; items: string[] }> = {
+  solo: {
+    inherits: null,
+    items: [
+      'Five web pages, forty photographs',
+      'An availability calendar guests can pick from',
+      'Seasonal rates, minimum stays, fees and tourist tax',
+      'Automatic quotes, priced and emailed to you both',
+      'Every enquiry and booking in one place',
+      'Revisions until you’re happy',
+    ],
+  },
+  pro: {
+    inherits: 'Solo',
+    items: [
+      'Thirteen web pages, a hundred and forty photographs',
+      'Google indexing and Search Console',
+      'Email capture, so the guest list is yours',
+      'Retargeting pixel',
+      'Change your own rates, seasons and extras',
+    ],
+  },
+  premium: {
+    inherits: 'Pro',
+    items: [
+      'Unlimited pages, three hundred photographs',
+      'A layout drawn for your property, not a template',
+      'Blog, three languages, prices in your guest’s currency',
+      'Change the whole site yourself, any time',
+      'Card payments by Stripe, and more than one property',
+    ],
+  },
+};
+
 const TIERS: {
   key: TierKey;
   name: string;
@@ -198,8 +237,29 @@ const INCLUDED = [
   'You own the site and the domain',
 ];
 
+function renderCell(cell: Cell) {
+  if (cell === true)
+    return (
+      <Check
+        aria-label="Included"
+        className="w-4 h-4 text-amber mx-auto"
+        strokeWidth={2.5}
+      />
+    );
+  if (cell === false)
+    return (
+      <X
+        aria-label="Not included"
+        className="w-4 h-4 text-ink/30 mx-auto"
+        strokeWidth={2.5}
+      />
+    );
+  return <span className="tb !text-[13px] text-ink font-medium">{cell}</span>;
+}
+
 export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
   const [currency, setCurrency] = useState<Currency>('EUR');
+  const [showCompare, setShowCompare] = useState(false);
   const p = prices[currency];
   const money = (n: number) => `${p.symbol}${n.toLocaleString()}`;
 
@@ -355,53 +415,28 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
                     {money(p[tier.key])}
                   </span>
                   <span className="tbsm !text-[12px] block mt-2.5">
-                    one-time · then {money(p.ember)}/mo · Ember care
+                    one-time · then {money(p.ember)}/mo — Ember (hosting &amp; care)
                   </span>
                 </div>
 
                 <div className="flex-1 mb-9">
-                  {LEDGER.map((section) => (
-                    <div key={section.group} className="mb-5 last:mb-0">
-                      <p className="te !text-[9.5px] mb-3 pt-3 border-t border-border-subtle first:border-0 first:pt-0">
-                        {section.group}
-                      </p>
-                      <ul className="list-none space-y-2.5">
-                        {section.rows.map((row) => {
-                          const cell = row[tier.key];
-                          const has = cell !== false;
-                          return (
-                            <li
-                              key={row.label}
-                              className={`flex items-start gap-2.5 ${has ? '' : 'opacity-45'}`}
-                            >
-                              {has ? (
-                                <Check
-                                  aria-hidden
-                                  className="w-3.5 h-3.5 text-amber shrink-0 mt-[3px]"
-                                  strokeWidth={2.5}
-                                />
-                              ) : (
-                                <X
-                                  aria-hidden
-                                  className="w-3.5 h-3.5 text-ink/40 shrink-0 mt-[3px]"
-                                  strokeWidth={2.5}
-                                />
-                              )}
-                              <span className="tb !text-[13px] !leading-[1.5]">
-                                {row.label}
-                                {typeof cell === 'string' && (
-                                  <>
-                                    {' — '}
-                                    <strong className="text-ink font-medium">{cell}</strong>
-                                  </>
-                                )}
-                              </span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  ))}
+                  {HIGHLIGHTS[tier.key].inherits && (
+                    <p className="te !text-[9.5px] mb-3">
+                      Everything in {HIGHLIGHTS[tier.key].inherits}, plus
+                    </p>
+                  )}
+                  <ul className="list-none space-y-3">
+                    {HIGHLIGHTS[tier.key].items.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
+                        <Check
+                          aria-hidden
+                          className="w-3.5 h-3.5 text-amber shrink-0 mt-[3px]"
+                          strokeWidth={2.5}
+                        />
+                        <span className="tb !text-[13.5px] !leading-[1.55]">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
                 <button
@@ -415,6 +450,85 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* ---------- Everything, side by side ---------- */}
+        <div className="mt-6">
+          <button
+            onClick={() => setShowCompare((v) => !v)}
+            aria-expanded={showCompare}
+            aria-controls="pricing-compare"
+            className="btn-outline w-full sm:w-auto"
+          >
+            <span>
+              {showCompare ? 'Hide the full comparison' : 'Compare every feature'}
+            </span>
+            <ChevronDown
+              aria-hidden
+              className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                showCompare ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
+
+          {showCompare && (
+            <div
+              id="pricing-compare"
+              className="mt-6 overflow-x-auto border border-border bg-surface"
+            >
+              <table className="w-full min-w-[680px] border-collapse text-left">
+                <caption className="sr-only">
+                  Every feature compared across Solo, Pro and Premium
+                </caption>
+                <thead>
+                  <tr className="border-b border-border">
+                    <th scope="col" className="te !text-[9.5px] px-5 py-4">
+                      Feature
+                    </th>
+                    {TIERS.map((tier) => (
+                      <th
+                        key={tier.key}
+                        scope="col"
+                        className="te !text-[9.5px] px-5 py-4 w-[14%] text-center"
+                      >
+                        {tier.name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {LEDGER.map((section) => (
+                    <Fragment key={section.group}>
+                      <tr className="bg-canvas-alt">
+                        <th
+                          scope="colgroup"
+                          colSpan={4}
+                          className="te !text-[9.5px] px-5 py-2.5"
+                        >
+                          {section.group}
+                        </th>
+                      </tr>
+                      {section.rows.map((row) => (
+                        <tr key={row.label} className="border-t border-border-subtle">
+                          <th
+                            scope="row"
+                            className="tb !text-[13px] !font-normal px-5 py-3.5"
+                          >
+                            {row.label}
+                          </th>
+                          {TIERS.map((tier) => (
+                            <td key={tier.key} className="px-5 py-3.5 text-center">
+                              {renderCell(row[tier.key])}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
         {/* ---------- How it goes ---------- */}
         <motion.div
@@ -470,7 +584,8 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
             The build is once. Keeping it earning is the monthly.
           </h3>
           <p className="tb !text-[15px] max-w-[62ch] mb-8">
-            Every site includes Ember. Move up when you want the calendar
+            Every site includes <strong className="text-ink font-medium">Ember</strong>,
+            our hosting and care plan. Move up when you want the calendar
             working both ways, or when you want someone doing the marketing.
           </p>
 
