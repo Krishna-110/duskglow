@@ -242,11 +242,16 @@ const STEPS = [
   },
 ];
 
-/** Reuses the tier banners — same host, already configured, no new fetches. */
+/**
+ * Portrait crops, so they sit in the 4:5 frames without the subject being
+ * cut off. Distinct from the tier banners on purpose — reusing those put
+ * the same three photographs on screen twice, a few hundred pixels apart.
+ * Front card is a villa at twilight, which is the whole brand.
+ */
 const CONTENT_SAMPLES = [
-  'https://images.pexels.com/photos/35069530/pexels-photo-35069530.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
-  'https://images.pexels.com/photos/37030525/pexels-photo-37030525.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
-  'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
+  'https://images.pexels.com/photos/29693417/pexels-photo-29693417.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
+  'https://images.pexels.com/photos/28793754/pexels-photo-28793754.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
+  'https://images.pexels.com/photos/38299644/pexels-photo-38299644.jpeg?auto=compress&cs=tinysrgb&w=500&dpr=2',
 ];
 
 const INCLUDED = [
