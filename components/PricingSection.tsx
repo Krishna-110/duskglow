@@ -14,6 +14,9 @@ import {
   Sparkles,
   Play,
   ShieldCheck,
+  Flame,
+  Zap,
+  RadioTower,
 } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
@@ -294,6 +297,9 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
   const carePlans = [
     {
       name: 'Ember',
+      // It burns, it pulses, it broadcasts — the icons carry the same
+      // ascending-reach idea the names do.
+      Icon: Flame,
       price: p.ember,
       desc: 'Included with every site.',
       featured: false,
@@ -315,6 +321,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
     },
     {
       name: 'Signal',
+      Icon: Zap,
       price: p.signal,
       desc: 'One calendar, and you hear about it first.',
       featured: true,
@@ -332,6 +339,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
     },
     {
       name: 'Beacon',
+      Icon: RadioTower,
       price: p.beacon,
       desc: 'Someone working on it, not just watching it.',
       featured: false,
@@ -650,12 +658,16 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
         </motion.div>
 
         {/* ---------- The monthly side ---------- */}
-        <div className="mt-16">
-          <p className="te !text-[9.5px] mb-3">Every month after</p>
-          <h3 className="thb text-[24px] sm:text-[30px] text-ink mb-3 text-balance">
+        <div className="mt-20">
+          <div className="flex items-center gap-3 mb-5">
+            <span aria-hidden className="h-px w-8 bg-gradient-to-r from-transparent to-amber-line" />
+            <span className="te !text-[9.5px]">Every month after</span>
+            <span aria-hidden className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-line" />
+          </div>
+          <h3 className="thb text-[26px] sm:text-[32px] text-ink mb-3 text-balance max-w-[24ch]">
             The build is once. Keeping it earning is the monthly.
           </h3>
-          <p className="tb !text-[15px] max-w-[62ch] mb-8">
+          <p className="tb !text-[15px] max-w-[62ch] mb-9">
             Every site includes <strong className="text-ink font-medium">Ember</strong>,
             our hosting and care plan. Move up when you want the calendar
             working both ways, or when you want someone doing the marketing.
@@ -672,10 +684,10 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
               <motion.div
                 key={plan.name}
                 variants={fadeUp}
-                className={`relative flex flex-col bg-surface border p-7 ${
+                className={`relative flex flex-col bg-surface border p-7 transition-[box-shadow,transform] duration-700 ease-out hover:-translate-y-1 ${
                   plan.featured
                     ? 'border-amber-brand ring-1 ring-amber-brand shadow-e3'
-                    : 'border-border shadow-e1'
+                    : 'border-border shadow-e1 hover:shadow-e3'
                 }`}
               >
                 {plan.featured && (
@@ -684,18 +696,32 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
                   </span>
                 )}
 
-                <h4 className="thb text-[22px] text-ink mb-1">{plan.name}</h4>
-                <p className="tbsm !text-[13px] mb-5">{plan.desc}</p>
+                {/* Featured fills, the others outline — same rule as the
+                    process strip, so the page has one way of saying "this
+                    one". */}
+                <span
+                  aria-hidden
+                  className={`grid place-items-center w-12 h-12 rounded-full mb-5 ${
+                    plan.featured
+                      ? 'bg-amber text-white'
+                      : 'bg-amber-line border border-amber-line text-amber'
+                  }`}
+                >
+                  <plan.Icon className="w-[19px] h-[19px]" strokeWidth={1.75} />
+                </span>
 
-                <div className="mb-6">
-                  <span className="font-serif font-semibold text-[34px] text-ink leading-none num">
+                <h4 className="thb text-[22px] text-ink mb-1">{plan.name}</h4>
+                <p className="tbsm !text-[13px] mb-6 min-h-[2.6em]">{plan.desc}</p>
+
+                <div className="pb-6 mb-6 border-b border-border-subtle">
+                  <span className="font-serif font-semibold text-[38px] text-ink leading-none num">
                     {money(plan.price)}
                   </span>
-                  <span className="tbsm !text-[13px]">/month</span>
+                  <span className="tbsm !text-[13px] ml-1">/month</span>
                 </div>
 
                 {plan.inherits && (
-                  <p className="te !text-[9.5px] mb-3 pt-3 border-t border-border-subtle">
+                  <p className="te !text-[9.5px] mb-4">
                     Everything in {plan.inherits}, plus
                   </p>
                 )}
