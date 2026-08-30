@@ -207,22 +207,22 @@ const TIERS: {
 
 const STEPS = [
   {
-    k: 'One',
+    k: '01',
     title: 'The call',
     body: 'Your property, your rates, your seasons. Half an hour, no pitch.',
   },
   {
-    k: 'Two',
+    k: '02',
     title: 'The preview',
     body: 'A live link to your finished site. Nothing invoiced, nothing owed.',
   },
   {
-    k: 'Three',
+    k: '03',
     title: 'Your changes',
     body: 'We work through your notes. Photographs, wording, whatever isn’t you yet.',
   },
   {
-    k: 'Four',
+    k: '04',
     title: 'Live, and paid',
     body: 'Only once you’re happy. On your own domain, taking enquiries, calendar already reading your platforms.',
   },
@@ -452,23 +452,31 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
         </motion.div>
 
         {/* ---------- Everything, side by side ---------- */}
-        <div className="mt-6">
-          <button
-            onClick={() => setShowCompare((v) => !v)}
-            aria-expanded={showCompare}
-            aria-controls="pricing-compare"
-            className="btn-outline w-full sm:w-auto"
-          >
-            <span>
-              {showCompare ? 'Hide the full comparison' : 'Compare every feature'}
-            </span>
-            <ChevronDown
-              aria-hidden
-              className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                showCompare ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
+        <div className="mt-10">
+          {/* Flanked like a section eyebrow so the toggle reads as a divider
+              between the cards and the detail, not an orphaned button. */}
+          <div className="flex items-center gap-5 sm:gap-7">
+            <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-line" />
+            <button
+              onClick={() => setShowCompare((v) => !v)}
+              aria-expanded={showCompare}
+              aria-controls="pricing-compare"
+              className="group inline-flex items-center gap-2.5 shrink-0 te !text-[10px] text-ink hover:text-amber transition-colors duration-300"
+            >
+              <span>
+                {showCompare ? 'Hide the full comparison' : 'Compare every feature'}
+              </span>
+              <span className="grid place-items-center w-6 h-6 rounded-full border border-border-strong group-hover:border-amber-brand transition-colors duration-300">
+                <ChevronDown
+                  aria-hidden
+                  className={`w-3 h-3 transition-transform duration-500 ease-out ${
+                    showCompare ? 'rotate-180' : ''
+                  }`}
+                />
+              </span>
+            </button>
+            <span aria-hidden className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-line" />
+          </div>
 
           {showCompare && (
             <div
@@ -538,13 +546,34 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
           viewport={VIEWPORT}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border mt-6"
         >
-          {STEPS.map((step) => (
-            <motion.div key={step.k} variants={fadeUp} className="bg-surface p-6">
-              <p className="te !text-[9.5px] mb-2">{step.k}</p>
-              <h4 className="thb text-[18px] text-ink mb-1.5">{step.title}</h4>
-              <p className="tbsm !text-[13px]">{step.body}</p>
-            </motion.div>
-          ))}
+          {STEPS.map((step, i) => {
+            const last = i === STEPS.length - 1;
+            return (
+              <motion.div
+                key={step.k}
+                variants={fadeUp}
+                className="relative bg-surface p-7 pt-6 overflow-hidden"
+              >
+                {/* The payoff step earns full amber; the rest sit back. */}
+                <span
+                  aria-hidden
+                  className={`absolute top-4 right-5 font-serif font-semibold text-[64px] leading-none num select-none ${
+                    last ? 'text-amber/25' : 'text-ink/[0.06]'
+                  }`}
+                >
+                  {step.k}
+                </span>
+                <span
+                  aria-hidden
+                  className={`block w-6 h-px mb-5 ${last ? 'bg-amber-brand' : 'bg-border-strong'}`}
+                />
+                <h4 className="thb text-[19px] text-ink mb-2 relative">{step.title}</h4>
+                <p className="tbsm !text-[13px] !leading-[1.6] relative max-w-[30ch]">
+                  {step.body}
+                </p>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         {/* ---------- Why the quotes hold up ---------- */}
@@ -553,28 +582,37 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
           initial="hidden"
           whileInView="show"
           viewport={VIEWPORT}
-          className="bg-surface border border-border shadow-e1 p-7 sm:p-9 mt-6"
+          className="bg-surface border border-border shadow-e1 p-7 sm:p-10 mt-6"
         >
-          <p className="te !text-[9.5px] mb-3">Why the quotes hold up</p>
-          <h3 className="thb text-[24px] sm:text-[28px] text-ink mb-4 text-balance">
-            The quote a guest gets is the one you set.
-          </h3>
-          <p className="tb !text-[15px] max-w-[62ch] mb-3">
-            Nothing about your rates lives in the browser, so the figure in the
-            email is the figure that counts — not something a guest can change
-            before they send it. Enquiries hold their dates the moment they
-            land, and you accept or decline from the admin panel.
-          </p>
-          <p className="tb !text-[15px] max-w-[62ch]">
-            Your site <strong className="text-ink font-medium">reads</strong> the
-            calendars from Airbnb, Booking.com and Vrbo, so dates taken there
-            close on your own site.{' '}
-            <strong className="text-ink font-medium">
-              Sending your direct bookings back out
-            </strong>{' '}
-            to those platforms is what the Signal plan below adds — that is the
-            piece that closes the loop both ways.
-          </p>
+          {/* Heading left, argument right — the single column left half the
+              card empty at desktop widths. */}
+          <div className="grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-7 md:gap-12 lg:gap-16">
+            <div className="md:border-r md:border-border-subtle md:pr-8 lg:pr-12">
+              <p className="te !text-[9.5px] mb-4">Why the quotes hold up</p>
+              <h3 className="thb text-[25px] sm:text-[30px] text-ink text-balance">
+                The quote a guest gets is the one you set.
+              </h3>
+            </div>
+            <div>
+              <p className="tb !text-[15px] mb-4">
+                Nothing about your rates lives in the browser, so the figure in
+                the email is the figure that counts — not something a guest can
+                change before they send it. Enquiries hold their dates the
+                moment they land, and you accept or decline from the admin
+                panel.
+              </p>
+              <p className="tb !text-[15px]">
+                Your site <strong className="text-ink font-medium">reads</strong>{' '}
+                the calendars from Airbnb, Booking.com and Vrbo, so dates taken
+                there close on your own site.{' '}
+                <strong className="text-ink font-medium">
+                  Sending your direct bookings back out
+                </strong>{' '}
+                to those platforms is what the Signal plan below adds — that is
+                the piece that closes the loop both ways.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* ---------- The monthly side ---------- */}
