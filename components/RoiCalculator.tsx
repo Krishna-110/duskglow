@@ -19,20 +19,36 @@ const currencyRates: Record<Currency, number> = { EUR: 1, USD: 1.08, GBP: 0.85 }
 const MIN = 2000;
 const MAX = 30000;
 
+const COMMISSION = 0.155;
+/** Ember, the care plan every build includes. Keep in step with PricingSection. */
+const HOSTING_MONTHLY_EUR = 29;
+const MAX_VAT = 27;
+
 export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
   const [revenue, setRevenue] = useState<number>(8500);
   const [currency, setCurrency] = useState<Currency>('EUR');
+  /**
+   * VAT the platform adds to its own service fee. Defaults to zero because
+   * whether it applies at all depends on the host's country and whether they
+   * are VAT-registered — this has to be the host's number, not our guess.
+   */
+  const [vat, setVat] = useState<number>(0);
 
   const symbol = currencySymbols[currency];
   const rate = currencyRates[currency];
 
   const currentRevenue = Math.round(revenue * rate);
-  const monthlyFee = Math.round(currentRevenue * 0.155);
-  const yearlyFee = monthlyFee * 12;
-  const hostingCostYearly = Math.round(180 * rate);
+  const effectiveRate = COMMISSION * (1 + vat / 100);
+  // Multiply first, round once. Rounding the month and then multiplying by
+  // twelve pushed the yearly figure out by six euros at the default revenue.
+  const monthlyFee = Math.round(currentRevenue * effectiveRate);
+  const yearlyFee = Math.round(currentRevenue * effectiveRate * 12);
+  const hostingCostMonthly = Math.round(HOSTING_MONTHLY_EUR * rate);
+  const hostingCostYearly = hostingCostMonthly * 12;
   const yearlySavings = Math.max(0, yearlyFee - hostingCostYearly);
 
   const fillPct = ((revenue - MIN) / (MAX - MIN)) * 100;
+  const vatFillPct = (vat / MAX_VAT) * 100;
 
   return (
     <section id="roi" className="relative py-24 sm:py-32 bg-canvas wash">
@@ -129,6 +145,37 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
             </div>
           </div>
 
+          {/* VAT the platform adds on top of its own fee. Zero by default —
+              it applies in some countries and not others, and only to hosts
+              who aren't VAT-registered. */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mb-9 pb-9 border-b border-border-subtle">
+            <label htmlFor="roi-vat" className="label !mb-0 shrink-0">
+              VAT on the platform fee
+            </label>
+            <div className="flex items-center gap-4 flex-1 sm:max-w-[340px]">
+              <input
+                id="roi-vat"
+                type="range"
+                min={0}
+                max={MAX_VAT}
+                step={1}
+                value={vat}
+                onChange={(e) => setVat(Number(e.target.value))}
+                className="roi-slider"
+                style={{ ['--fill' as string]: `${vatFillPct}%` }}
+                aria-valuetext={`${vat} percent VAT on the platform fee`}
+              />
+              <span className="num text-[13px] font-medium text-ink w-11 text-right shrink-0">
+                {vat}%
+              </span>
+            </div>
+            <span className="tbsm !text-[11.5px] sm:ml-auto">
+              {vat > 0
+                ? `Effective ${(effectiveRate * 100).toFixed(1)}% of revenue`
+                : 'Leave at zero if it does not apply to you'}
+            </span>
+          </div>
+
           {/* Results */}
           <motion.dl
             variants={stagger(0.07)}
@@ -138,7 +185,7 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
             className="grid grid-cols-1 sm:grid-cols-3 border-t border-border divide-y sm:divide-y-0 sm:divide-x divide-border-subtle"
           >
             <Stat
-              label="Airbnb 15.5% fee"
+              label={vat > 0 ? 'Airbnb fee + VAT' : 'Airbnb 15.5% fee'}
               sub="per month"
               value={monthlyFee}
               symbol={symbol}
@@ -163,11 +210,14 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
 
           {/* Footnote + CTA */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mt-8 pt-7 border-t border-border-subtle">
-            <p className="text-[11.5px] leading-relaxed text-ink-dim max-w-[46ch]">
+            <p className="text-[11.5px] leading-relaxed text-ink-dim max-w-[52ch]">
               After {symbol}
-              {hostingCostYearly}/yr hosting ({symbol}
-              {Math.round(15 * rate)}/mo). Excludes tax treatment and any existing
-              Airbnb-related costs.
+              {hostingCostYearly.toLocaleString()}/yr for Ember ({symbol}
+              {hostingCostMonthly}/mo), the care plan every build includes.
+              {vat > 0
+                ? ` VAT is applied to the platform's service fee only, not to your booking revenue.`
+                : ' Set a VAT rate above if your platform charges it on its service fee.'}{' '}
+              Excludes your own income tax and any existing Airbnb-related costs.
             </p>
             <button onClick={onOpenBookCall} className="btn-prim shrink-0">
               <span>Reclaim This Revenue</span>
