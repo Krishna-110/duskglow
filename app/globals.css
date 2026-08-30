@@ -68,49 +68,57 @@
 
 .dark,
 .theme-dusk {
-  --canvas:        #17120e;
-  --canvas-alt:    #1d1813;
-  --canvas-deep:   #241e18;
-  --surface:       #221c17;
-  --surface-raise: #2a231d;
+  /* Roasted coffee, not black. The old ramp started at #17120e — warm in
+     hex, but at 7% lightness the eye reads it as black and the whole theme
+     went flat. Lifting the floor to ~13% lets the brown actually show.
+     Every ratio below re-measured against the new canvas. */
+  --canvas:        #2a201a;
+  --canvas-alt:    #31261f;
+  --canvas-deep:   #392d24;
+  --surface:       #352a22;
+  --surface-raise: #3f322a;
 
-  --ink:           #f0EAE1;
-  --ink-soft:      #c4b8a6;   /* 9.2:1 on canvas */
-  --ink-dim:       #9a8f7e;   /* 5.7:1 on canvas */
+  --ink:           #f0EAE1;   /* 13.3:1 on canvas */
+  --ink-soft:      #c4b8a6;   /* 8.2:1  on canvas */
+  /* Lifted from #9a8f7e: on the old near-black canvas it cleared AA, but
+     against the raised surface it fell to 4.39:1. Now 5.5 / 4.8. */
+  --ink-dim:       #a2977f;   /* 5.5:1  on canvas · 4.8:1 on surface */
 
   --amber:         #c98b5f;
-  --amber-ink:     #d2966a;   /* 7.1:1 on canvas · 7.1:1 vs dark ink */
+  --amber-ink:     #d2966a;   /* 6.3:1 on canvas */
   --amber-soft:    rgba(210, 150, 106, 0.13);
   --amber-glow:    rgba(210, 150, 106, 0.10);
   --amber-line:    rgba(210, 150, 106, 0.30);
 
-  --border:        #38302a;
-  --border-strong: #4a4037;
-  --border-subtle: rgba(240, 234, 225, 0.07);
+  --border:        #4a3c32;
+  --border-strong: #5d4c3f;
+  --border-subtle: rgba(240, 234, 225, 0.08);
 
-  --nav-bg:        rgba(23, 18, 14, 0.72);
-  --nav-bg-solid:  rgba(23, 18, 14, 0.94);
-  --card-bg:       rgba(34, 28, 23, 0.88);
-  --card-border:   rgba(74, 64, 55, 0.6);
+  --nav-bg:        rgba(42, 32, 26, 0.72);
+  --nav-bg-solid:  rgba(42, 32, 26, 0.94);
+  --card-bg:       rgba(53, 42, 34, 0.88);
+  --card-border:   rgba(93, 76, 63, 0.6);
 
   --btn-prim-bg:   #d2966a;
-  --btn-prim-text: #17120e;
+  --btn-prim-text: #241c16;
   --btn-prim-hover-bg:   #e6b189;
-  --btn-prim-hover-text: #17120e;
+  --btn-prim-hover-text: #241c16;
 
-  --sh-1: 0 1px 2px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.24);
-  --sh-2: 0 2px 4px rgba(0, 0, 0, 0.32), 0 8px 22px rgba(0, 0, 0, 0.34);
-  --sh-3: 0 4px 10px rgba(0, 0, 0, 0.36), 0 18px 44px rgba(0, 0, 0, 0.44);
-  --sh-4: 0 8px 22px rgba(0, 0, 0, 0.40), 0 34px 80px rgba(0, 0, 0, 0.56);
+  /* Warm-tinted, matching the light theme's rule that shadow is never
+     neutral. Pure black over coffee reads as grey sludge. */
+  --sh-1: 0 1px 2px rgba(14, 8, 4, 0.34), 0 2px 6px rgba(14, 8, 4, 0.28);
+  --sh-2: 0 2px 4px rgba(14, 8, 4, 0.36), 0 8px 22px rgba(14, 8, 4, 0.38);
+  --sh-3: 0 4px 10px rgba(14, 8, 4, 0.40), 0 18px 44px rgba(14, 8, 4, 0.48);
+  --sh-4: 0 8px 22px rgba(14, 8, 4, 0.44), 0 34px 80px rgba(14, 8, 4, 0.60);
 
   --grain-opacity: 0.42;
 
   --hero-overlay: linear-gradient(
     118deg,
-    rgba(12, 9, 7, 0.76) 0%,
-    rgba(14, 11, 8, 0.44) 42%,
-    rgba(20, 15, 11, 0.20) 72%,
-    rgba(23, 18, 14, 0.60) 100%
+    rgba(26, 18, 12, 0.76) 0%,
+    rgba(30, 22, 16, 0.44) 42%,
+    rgba(36, 27, 20, 0.20) 72%,
+    rgba(42, 32, 26, 0.60) 100%
   );
 }
 
