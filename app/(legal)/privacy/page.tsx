@@ -25,16 +25,12 @@ export default function PrivacyPage() {
 
       <h2>Who we are</h2>
       <p>
-        Duskglow builds direct-booking websites for short-term rental hosts. If
-        you want to reach us about anything on this page, write to{' '}
-        <a href="mailto:hello@duskglow.site">hello@duskglow.site</a>.
-      </p>
-      <p className="note">
-        <strong>To complete before publishing:</strong> the registered legal
-        name, trading address and country of establishment of the entity acting
-        as data controller, plus the supervisory authority a complaint would go
-        to. Those depend on how the business is registered and cannot be
-        guessed.
+        Duskglow builds direct-booking websites for short-term rental hosts. We
+        decide what happens to the information described below, which makes us
+        the controller of it. Write to{' '}
+        <a href="mailto:hello@duskglow.site">hello@duskglow.site</a> about
+        anything on this page — including a request to see, correct or delete
+        what we hold — and a person will read it.
       </p>
 
       <h2>What we collect</h2>
@@ -82,8 +78,11 @@ export default function PrivacyPage() {
           message.
         </li>
         <li>
-          <strong>Our hosting provider</strong> serves the pages and keeps
-          ordinary server logs, which include IP addresses.
+          <strong>Our hosting provider</strong> serves these pages and keeps
+          ordinary server logs, which include IP addresses. They are kept
+          briefly for security and troubleshooting, and we do not use them to
+          build a picture of you. Ask us who hosts the site and we will tell
+          you.
         </li>
         <li>
           <strong>The live demo.</strong> The demo opens a site hosted at a
@@ -91,10 +90,6 @@ export default function PrivacyPage() {
           this policy stops applying to it.
         </li>
       </ul>
-      <p className="note">
-        <strong>To complete before publishing:</strong> name the hosting
-        provider and how long its logs are kept.
-      </p>
 
       <h2>How long we keep it</h2>
       <p>

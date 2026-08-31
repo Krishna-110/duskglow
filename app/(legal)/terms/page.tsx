@@ -21,11 +21,11 @@ export default function TermsPage() {
       </p>
       <p className="tbsm !text-[12px] mb-12">Last updated {UPDATED}.</p>
 
-      <p className="note">
-        <strong>To complete before publishing:</strong> the registered legal
-        name and address of the contracting entity, the governing law and
-        courts, and a liability cap reviewed by a lawyer in that jurisdiction.
-        Everything else on this page describes how we actually work.
+      <h2>Who these are between</h2>
+      <p>
+        You, and Duskglow — the business trading under that name and reachable
+        at <a href="mailto:hello@duskglow.site">hello@duskglow.site</a>. They
+        apply from the moment we start work on your site.
       </p>
 
       <h2>What we build</h2>
@@ -65,8 +65,9 @@ export default function TermsPage() {
           hand it over.
         </li>
         <li>
-          <strong>Your guest list</strong> is yours. We do not market to it, sell
-          it, or keep a copy after you go.
+          <strong>Your guest list</strong> is yours. We never market to it and
+          never sell it. When you leave we hand your data over and remove it
+          from our live systems; it clears from routine backups as those rotate.
         </li>
         <li>
           <strong>Your photographs and words</strong> stay yours. You are
@@ -123,6 +124,22 @@ export default function TermsPage() {
         platforms control how often they publish changes. We poll on a schedule
         and tell you when a feed goes quiet, but we do not control the platforms
         and cannot guarantee their timing.
+      </p>
+
+      <h2>When something goes wrong</h2>
+      <p>
+        We take care with your site, but no one can promise software will never
+        fail or never contain a mistake. If something breaks because of us, tell
+        us and we will fix it — that is what the monthly plan is for. Nothing
+        here takes away any right you have under the law that cannot be signed
+        away.
+      </p>
+
+      <h2>If these change</h2>
+      <p>
+        We may update this page as the service changes. The date at the top
+        moves when we do. Work already agreed carries on under the terms that
+        applied when we agreed it.
       </p>
 
       <h2>Getting in touch</h2>
