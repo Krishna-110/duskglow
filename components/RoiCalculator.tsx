@@ -20,8 +20,6 @@ const MIN = 2000;
 const MAX = 30000;
 
 const COMMISSION = 0.155;
-/** Ember, the care plan every build includes. Keep in step with PricingSection. */
-const HOSTING_MONTHLY_EUR = 29;
 const MAX_VAT = 27;
 
 export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
@@ -43,9 +41,7 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
   // twelve pushed the yearly figure out by six euros at the default revenue.
   const monthlyFee = Math.round(currentRevenue * effectiveRate);
   const yearlyFee = Math.round(currentRevenue * effectiveRate * 12);
-  const hostingCostMonthly = Math.round(HOSTING_MONTHLY_EUR * rate);
-  const hostingCostYearly = hostingCostMonthly * 12;
-  const yearlySavings = Math.max(0, yearlyFee - hostingCostYearly);
+  const fiveYearFee = yearlyFee * 5;
 
   const fillPct = ((revenue - MIN) / (MAX - MIN)) * 100;
   const vatFillPct = (vat / MAX_VAT) * 100;
@@ -198,10 +194,14 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
               symbol={symbol}
               tone="loss"
             />
+            {/* Was "saved with Duskglow, net of hosting". Netting one small
+                cost out implied the figure was net of everything, which it
+                never was — it ignored the build. Five years of the same
+                commission is a bigger number and makes no cost claim at all. */}
             <Stat
-              label="Saved with Duskglow"
-              sub="per year, net of hosting"
-              value={yearlySavings}
+              label="Over five years"
+              sub="at the same rate"
+              value={fiveYearFee}
               symbol={symbol}
               tone="amber"
               icon
@@ -211,13 +211,11 @@ export default function RoiCalculator({ onOpenBookCall }: RoiCalculatorProps) {
           {/* Footnote + CTA */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mt-8 pt-7 border-t border-border-subtle">
             <p className="text-[11.5px] leading-relaxed text-ink-dim max-w-[52ch]">
-              After {symbol}
-              {hostingCostYearly.toLocaleString()}/yr for Ember ({symbol}
-              {hostingCostMonthly}/mo), the care plan every build includes.
+              Commission you would keep, not profit — it excludes your own
+              income tax and anything you already spend on the platform.
               {vat > 0
-                ? ` VAT is applied to the platform's service fee only, not to your booking revenue.`
-                : ' Set a VAT rate above if your platform charges it on its service fee.'}{' '}
-              Excludes your own income tax and any existing Airbnb-related costs.
+                ? " VAT is applied to the platform's service fee only, not to your booking revenue."
+                : ' Set a VAT rate above if your platform charges it on its service fee.'}
             </p>
             <button onClick={onOpenBookCall} className="btn-prim shrink-0">
               <span>Reclaim This Revenue</span>
