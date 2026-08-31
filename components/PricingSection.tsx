@@ -746,7 +746,9 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
             Plans cover one property; each additional property is{' '}
             {money(p.extraProperty)} a month. Included hours cover changes to
             what is already there — new pages and new features are quoted
-            separately. Cancel any time.
+            separately. Cancel any time. You can host the site elsewhere if you
+            prefer — it is yours — but hosting and care are one thing, so the
+            backups, monitoring and updates go with it.
           </p>
         </div>
 

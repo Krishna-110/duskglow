@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: 'What is the monthly fee for?',
-    a: 'Ember, the care plan every site comes with by default: hosting, SSL, nightly off-site backups, security updates, uptime and calendar-feed monitoring, an hour of wording and photograph changes, and a monthly email showing your enquiries and the commission you did not pay. If you would rather host somewhere else, you can — the site and the domain are yours, and we will deploy them wherever you like. Cancel whenever you want.',
+    a: 'Ember, the care plan every site comes with by default: hosting, SSL, nightly off-site backups, security updates, uptime and calendar-feed monitoring, an hour of wording and photograph changes, and a monthly email showing your enquiries and the commission you did not pay. If you would rather host somewhere else, you can — the site and the domain are yours and we will deploy them wherever you like. You would be giving up everything above along with the hosting, though: the backups, the monitoring, the security updates and the changes each month all come as one thing. Cancel whenever you want.',
   },
 ] as const;
 

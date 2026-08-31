@@ -642,3 +642,72 @@ input[type='range'].roi-slider::-moz-range-progress {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ════════════════════════════════════════════════════════════
+   LEGAL PAGES — plain prose on the same tokens as everything else
+   ════════════════════════════════════════════════════════════ */
+
+.legal h2 {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.014em;
+  color: var(--ink);
+  margin: 44px 0 14px;
+}
+
+.legal p {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.legal ul {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.legal li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+}
+
+/* A rule rather than a bullet — matches the hairline vocabulary elsewhere. */
+.legal li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 7px;
+  height: 1px;
+  background: var(--amber);
+}
+
+.legal strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.legal a {
+  color: var(--amber-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Unresolved items the owner has to fill in before this goes public. Styled
+   to be impossible to miss on the page, not tucked into a comment. */
+.legal .note {
+  background: var(--amber-soft);
+  border-left: 2px solid var(--amber);
+  padding: 15px 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 26px 0;
+}
