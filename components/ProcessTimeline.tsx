@@ -14,30 +14,26 @@ import { fadeUp, stagger, VIEWPORT } from '@/lib/motion';
 const steps = [
   {
     num: '01',
-    title: 'Discovery',
-    desc: 'A 30-minute call to understand your property, your photography, and your selling points. We sketch a concept before we hang up.',
-    day: 'Day 1',
+    title: 'The call',
+    desc: 'Thirty minutes on your property, your rates and your seasons. No pitch. We sketch a concept before we hang up.',
     at: 0.06,
   },
   {
     num: '02',
-    title: 'Design',
-    desc: 'Within 48 hours you receive a live preview link. One round of feedback, one revision. You approve — we build.',
-    day: 'Day 2–3',
+    title: 'The preview',
+    desc: 'A live link to your finished site. Nothing invoiced, nothing owed — you are looking at it before you have paid a penny.',
     at: 0.34,
   },
   {
     num: '03',
-    title: 'Integration',
-    desc: 'Calendar sync, Stripe payments, domain registration, DNS, SSL — all wired while you focus on your guests.',
-    day: 'Day 4–6',
+    title: 'Your changes',
+    desc: 'Tell us what to change and we change it, for as long as it takes. Photographs, wording, whatever is not you yet.',
     at: 0.62,
   },
   {
     num: '04',
-    title: 'Launch',
-    desc: 'Site deployed. Domain resolving. Google indexed. You share the link — your rental has its own front door online.',
-    day: 'Day 7',
+    title: 'Live, and paid',
+    desc: 'Domain resolving, calendar already reading your platforms, enquiries arriving. Invoiced only once you are happy with it.',
     at: 0.9,
   },
 ] as const;
@@ -65,9 +61,9 @@ export default function ProcessTimeline() {
     <section id="how" ref={containerRef} className="py-24 sm:py-32 bg-canvas border-t border-border">
       <div className="max-w-shell mx-auto px-6 sm:px-8">
         <SectionHeading
-          eyebrow="The Timeline"
-          title="From a call to live in"
-          accent="seven days."
+          eyebrow="The Process"
+          title="From a call to a site"
+          accent="you actually like."
           inline
           className="mb-20 max-w-[40rem]"
         />
@@ -123,14 +119,6 @@ export default function ProcessTimeline() {
                       />
                     )}
                   </div>
-
-                  <span
-                    className={`te mb-3 transition-colors duration-700 ${
-                      lit ? '!text-amber' : ''
-                    }`}
-                  >
-                    {step.day}
-                  </span>
 
                   <h3 className="thb text-[19px] text-ink mb-2.5">{step.title}</h3>
 

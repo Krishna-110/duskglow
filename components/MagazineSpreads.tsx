@@ -25,7 +25,7 @@ export default function MagazineSpreads({ onOpenPreview }: MagazineSpreadsProps)
         title="You own the villa."
         accent="Who owns the brand?"
         lead="Every booking through Airbnb costs 15.5% in service fees. Every guest who stays types the Airbnb logo into their phone — not your villa's name. Your property fuels someone else's valuation."
-        support="A direct-booking microsite flips the equation. Your domain appears in Google searches. Your calendar receives enquiries directly. Your guest list compounds with every stay — and the equity stays with you."
+        support="A direct-booking site of your own flips the equation. Your domain appears in Google searches. Your calendar receives enquiries directly. Your guest list compounds with every stay — and the equity stays with you."
         image="https://images.pexels.com/photos/37030525/pexels-photo-37030525.jpeg?auto=compress&cs=tinysrgb&w=1000&dpr=2"
         alt="Terrace with bougainvillea overlooking the sea"
         caption="Ordinary listings compete on price. Brands compete on desire."
@@ -45,11 +45,11 @@ export default function MagazineSpreads({ onOpenPreview }: MagazineSpreadsProps)
         eyebrow="The Solution"
         title="Your domain."
         accent="Your guest list."
-        lead="A Duskglow microsite is a full editorial presence for your villa — or any short-term rental — designed, built, and deployed in seven days. We handle the photography layout, calendar integration, payment links, and Google indexing."
+        lead="A Duskglow site is a full editorial presence for your villa — or any short-term rental — designed and built around your own photographs. We handle the layout, the calendar sync, the domain, and getting you found. You see it on a live link before anything is invoiced."
         support="You get a direct pipeline to your guests. Email capture, retargeting pixels, and off-season messaging — all under your control. Your property becomes the destination; the platform becomes invisible."
         image="https://images.pexels.com/photos/35069530/pexels-photo-35069530.jpeg?auto=compress&cs=tinysrgb&w=1000&dpr=2"
         alt="Sunset wine glasses at an infinity pool"
-        caption="Seven days from first call to a live front door online."
+        caption="From a first call to a front door of your own online."
         figure="02"
         cta={
           <button onClick={onOpenPreview} className="btn-prim">

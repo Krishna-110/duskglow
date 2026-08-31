@@ -13,23 +13,23 @@ const faqs = [
   },
   {
     q: "What if I'm not technical?",
-    a: 'You don\'t need to touch a single setting. We handle domain registration, DNS configuration, SSL certificates, calendar integration, and payment links. You send us your best photos and text — we ship a finished, live site.',
+    a: "You don't need to touch a single setting. We register the domain in your name, wire up DNS, SSL and the calendar sync, and build the site around your photographs and your rates. You see a live link before anything is invoiced.",
   },
   {
     q: 'How do guests find my site?',
-    a: "Three channels: Google indexing (we set up Search Console), links from your Airbnb profile and Instagram bio, and automated guest emails. Over time, travellers searching your property's name find your site first.",
+    a: "Links from your Airbnb profile and Instagram bio, automated guest emails, and — from Pro upward — Google indexing with Search Console set up for you. Over time, travellers searching your property's name find your site first.",
   },
   {
     q: 'Can I keep my Airbnb listing too?',
-    a: 'Absolutely. Most hosts run both. Airbnb handles discovery for new guests; your microsite captures repeat and referral guests at zero commission. The two channels feed each other — more visibility, more direct bookings.',
+    a: 'Absolutely. Most hosts run both. Airbnb handles discovery for new guests; your own site captures repeat and referral guests with no commission taken. The two channels feed each other — more visibility, more direct bookings.',
   },
   {
-    q: 'What about payment security?',
-    a: 'We integrate Stripe payment links — the same infrastructure used by millions of businesses worldwide. Guests pay securely by card. Funds settle directly to your bank account. No third-party processors, no risk.',
+    q: 'How do guests pay?',
+    a: 'On Solo and Pro, a guest picks their dates and gets a priced quote by email — you confirm and take payment however you do today. Premium adds card payments through Stripe, in your own account, so funds settle straight to your bank. That piece is set up after launch rather than bundled into the build.',
   },
   {
-    q: 'Is the €15/mo hosting mandatory?',
-    a: 'It covers your domain renewal, SSL certificate, hosting, and 24/7 uptime monitoring. If you already have a domain and hosting setup, we can deploy your site there instead. The €15 plan is the hassle-free default.',
+    q: 'What is the monthly fee for?',
+    a: 'Ember, the care plan every site includes: hosting, SSL, nightly off-site backups, security updates, uptime and calendar-feed monitoring, an hour of wording and photograph changes, and a monthly email showing your enquiries and the commission you did not pay. Cancel whenever you like — the site and the domain are yours, and we hand them over.',
   },
 ] as const;
 

@@ -72,7 +72,7 @@ export default function Footer({ onOpenBookCall }: FooterProps) {
             className="text-[15.5px] leading-[1.72] text-white/80 mb-10 max-w-[52ch] mx-auto [text-shadow:0_1px_10px_rgba(0,0,0,0.5)]"
           >
             Book a 20-minute discovery call. We&rsquo;ll look at your listing, your
-            photos, and sketch a microsite concept on the spot. No pitch — just a plan.
+            photos, and sketch a concept on the spot. No pitch — just a plan.
           </motion.p>
 
           <motion.div variants={fadeUp}>
@@ -110,7 +110,7 @@ export default function Footer({ onOpenBookCall }: FooterProps) {
                 Dusk<span className="text-amber">glow</span>
               </a>
               <p className="tbsm !text-[13px] max-w-[38ch]">
-                Custom direct-booking microsites for villa hosts — and any
+                Custom direct-booking sites for villa hosts — and any
                 short-term rental — ready to own their guest relationships and
                 their brand equity.
               </p>

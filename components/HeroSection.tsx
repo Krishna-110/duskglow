@@ -10,7 +10,7 @@ interface HeroSectionProps {
   onOpenPreview: () => void;
 }
 
-const trustMarks = ['Built for hosts', '7-day delivery', 'Zero commission'];
+const trustMarks = ['Built for hosts', 'No payment until you’re happy', 'No commission'];
 
 export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
   return (
@@ -52,7 +52,7 @@ export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
         >
           <motion.div variants={fadeUp} className="flex items-center gap-3 mb-5 sm:mb-6">
             <span aria-hidden className="h-px w-9 bg-amber-brand/70" />
-            <span className="te">Direct Booking Microsites</span>
+            <span className="te">Direct Booking Sites</span>
           </motion.div>
 
           <motion.h1
@@ -68,9 +68,9 @@ export default function HeroSection({ onOpenPreview }: HeroSectionProps) {
             variants={fadeUp}
             className="tb text-[15.5px] sm:text-[16.5px] max-w-[46ch] mb-7 sm:mb-9"
           >
-            Custom microsites for villas and short-term rentals that turn Airbnb
-            guests into repeat direct bookers. Your brand. Your calendar. Zero
-            commission — forever.
+            Custom sites for villas and short-term rentals that turn Airbnb
+            guests into repeat direct bookers. Your brand. Your calendar. No
+            commission, ever.
           </motion.p>
 
           <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3">
