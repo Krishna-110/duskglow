@@ -665,7 +665,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
             <span aria-hidden className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-line" />
           </div>
           <h3 className="thb text-[26px] sm:text-[32px] text-ink mb-3 text-balance max-w-[24ch]">
-            The build is once. Keeping it earning is the monthly.
+            A site still needs looking after.
           </h3>
           <p className="tb !text-[15px] max-w-[62ch] mb-9">
             Every site includes <strong className="text-ink font-medium">Ember</strong>,
